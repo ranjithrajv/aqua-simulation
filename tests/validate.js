@@ -8,14 +8,14 @@ console.log('🔍 Running Comprehensive Validation Suite\n');
 // 1. JavaScript Syntax Check
 console.log('1. JavaScript Syntax Validation:');
 const jsFiles = [
-    'js/app.js',
-    'js/tank-calculator.js', 
-    'js/glass-recommendations.js',
-    'js/equipment-recommendations.js',
-    'js/equipment-strategy.js',
-    'js/dom-helper.js',
-    'js/constants.js',
-    'js/tank-visualizer.js'
+    'app/js/app.js',
+    'app/js/tank-calculator.js',
+    'app/js/glass-recommendations.js',
+    'app/js/equipment-recommendations.js',
+    'app/js/equipment-strategy.js',
+    'app/js/dom-helper.js',
+    'app/js/constants.js',
+    'app/js/tank-visualizer.js'
 ];
 
 let allJSPassed = true;
@@ -32,7 +32,7 @@ jsFiles.forEach(file => {
 // 2. HTML Structure Check
 console.log('\n2. HTML Structure Validation:');
 try {
-    const htmlContent = fs.readFileSync('index.html', 'utf8');
+    const htmlContent = fs.readFileSync('app/index.html', 'utf8');
     const ids = [...htmlContent.matchAll(/id="([^"]+)"/g)].map(m => m[1]);
     const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
     
@@ -60,12 +60,12 @@ const importRegex = /import\s+{[^}]+}\s+from\s+['"]([^'"]+)['"]/g;
 const exportRegex = /export\s+(?:class|const|function|default)/g;
 
 try {
-    const appContent = fs.readFileSync('js/app.js', 'utf8');
+    const appContent = fs.readFileSync('app/js/app.js', 'utf8');
     const imports = [...appContent.matchAll(importRegex)].map(m => m[1]);
-    
+
     let missingModules = [];
     imports.forEach(importPath => {
-        const fullPath = path.join('js', importPath);
+        const fullPath = path.join('app/js', importPath);
         if (!fs.existsSync(fullPath)) {
             missingModules.push(importPath);
         }
@@ -83,7 +83,7 @@ try {
 // 4. Code Structure Check
 console.log('\n4. Code Structure Analysis:');
 try {
-    const appContent = fs.readFileSync('js/app.js', 'utf8');
+    const appContent = fs.readFileSync('app/js/app.js', 'utf8');
     
     // Check for orphaned code (lines not inside functions/classes)
     const lines = appContent.split('\n');
@@ -124,4 +124,3 @@ if (allJSPassed) {
     console.log('❌ Validation failed. Please fix the issues above.');
 }
 console.log('='.repeat(50));
-EOF && echo "Validation script created successfully"

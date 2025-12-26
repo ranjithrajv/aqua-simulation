@@ -1,6 +1,6 @@
 // Simple test script to simulate the DOM and test calculations
-import { TankCalculator } from './js/tank-calculator.js';
-import { GlassRecommender } from './js/glass-recommendations.js';
+import { TankCalculator } from '../app/js/tank-calculator.js';
+import { GlassRecommender } from '../app/js/glass-recommendations.js';
 
 // Mock DOM elements
 global.document = {
