@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aquarium Tank Simulator</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Aquarium Tank Simulator</h1>
+            <p>Design your aquarium tank and get glass thickness recommendations</p>
+        </header>
+
+        <div class="main-content">
+            <div class="top-section">
+                <div class="input-section">
+                    <div class="input-header">
+                        <h2>Tank Dimensions</h2>
+                        <div class="unit-controls">
+                             <div class="unit-selector">
+                                 <label for="unitSystem" class="tooltip">Dimensions:
+                                     <span class="tooltip-text">Choose measurement system for tank dimensions. Imperial (inches) is common in the US, metric (cm) elsewhere.</span>
+                                 </label>
+                                 <select id="unitSystem">
+                                     <option value="imperial">Inches (US)</option>
+                                     <option value="metric">Centimeters</option>
+                                 </select>
+                             </div>
+                          </div>
+                      </div>
+
+                     <div class="tank-presets">
+                         <h3 class="tooltip">Tank Dimensions Presets
+                             <span class="tooltip-text">Click any preset to instantly load common tank dimensions. Perfect for getting started or comparing different setups.</span>
+                         </h3>
+                         <div class="preset-buttons">
+                             <button class="preset-btn preset-btn-dimensions tooltip" data-width="20" data-length="10" data-height="16" data-icon="📐" data-label-imp="20×10×16 in" data-label-met="51×25×41 cm">
+                                 <span class="preset-label-text">20×10×16 in</span>
+                                 <span class="tooltip-text">Perfect for beginners or desktop setups. Low maintenance and space requirements.</span>
+                             </button>
+                             <button class="preset-btn preset-btn-dimensions tooltip" data-width="24" data-length="12" data-height="16" data-icon="📐" data-label-imp="24×12×16 in" data-label-met="61×30×41 cm">
+                                 <span class="preset-label-text">24×12×16 in</span>
+                                 <span class="tooltip-text">Great starter tank for most freshwater fish. Easy to maintain and budget-friendly.</span>
+                             </button>
+                             <button class="preset-btn preset-btn-dimensions tooltip" data-width="36" data-length="18" data-height="24" data-icon="📐" data-label-imp="36×18×24 in" data-label-met="91×46×61 cm">
+                                 <span class="preset-label-text">36×18×24 in</span>
+                                 <span class="tooltip-text">Community tank sweet spot. Room for multiple fish and more stable water parameters.</span>
+                             </button>
+                             <button class="preset-btn preset-btn-dimensions tooltip" data-width="48" data-length="24" data-height="24" data-icon="📐" data-label-imp="48×24×24 in" data-label-met="122×61×61 cm">
+                                 <span class="preset-label-text">48×24×24 in</span>
+                                 <span class="tooltip-text">Serious hobbyist tank. More space for larger fish and complex aquascapes.</span>
+                             </button>
+                             <button class="preset-btn preset-btn-dimensions tooltip" data-width="60" data-length="30" data-height="30" data-icon="📐" data-label-imp="60×30×30 in" data-label-met="152×76×76 cm">
+                                 <span class="preset-label-text">60×30×30 in</span>
+                                 <span class="tooltip-text">Showpiece tank requiring professional setup. Significant space and budget needed.</span>
+                             </button>
+                         </div>
+                     </div>
+
+                      <div class="dimension-controls">
+                         <div class="control-group">
+                             <label for="width" class="dimension-label tooltip">Width
+                                 <span class="tooltip-text">Internal width of the tank (front to back). Affects volume and glass thickness requirements.</span>
+                             </label>
+                             <input type="range" id="width" min="10" max="120" step="1" value="48">
+                             <span class="value-display" id="widthValue">48</span>
+                             <span class="unit-display" id="widthUnit">in</span>
+                             <div class="error-message" id="widthError"></div>
+                         </div>
+
+                         <div class="control-group">
+                             <label for="length" class="dimension-label tooltip">Length
+                                 <span class="tooltip-text">External length of the tank (left to right). Determines the longest panel and affects structural requirements.</span>
+                             </label>
+                             <input type="range" id="length" min="10" max="120" step="1" value="24">
+                             <span class="value-display" id="lengthValue">24</span>
+                             <span class="unit-display" id="lengthUnit">in</span>
+                             <div class="error-message" id="lengthError"></div>
+                         </div>
+
+                         <div class="control-group">
+                             <label for="height" class="dimension-label tooltip">Height
+                                 <span class="tooltip-text">Internal height of the tank. Water depth affects glass thickness - deeper tanks need thicker glass.</span>
+                             </label>
+                             <input type="range" id="height" min="12" max="60" step="1" value="24">
+                             <span class="value-display" id="heightValue">24</span>
+                             <span class="unit-display" id="heightUnit">in</span>
+                             <div class="error-message" id="heightError"></div>
+                         </div>
+                      </div>
+                </div>
+
+                <div class="results-section">
+                     <div class="mode-toggle">
+                        <h3 class="tooltip">Tank Volume
+                            <span class="tooltip-text">Enter desired volume or adjust dimensions. All values update in real-time.</span>
+                        </h3>
+                        <div class="toggle-switch">
+                            <label class="checkbox-label tooltip">
+                                <input type="checkbox" id="fixedVolumeMode">
+                                <span class="toggle-text">Adjust dimensions from volume</span>
+                                <span class="tooltip-text">When enabled, adjusting volume will automatically resize tank dimensions. When disabled, adjust dimensions directly.</span>
+                            </label>
+                        </div>
+                        <div class="unit-controls">
+                            <div class="unit-selector">
+                                <label for="volumeUnit" class="tooltip">Volume Units:
+                                    <span class="tooltip-text">Display volume in US gallons (common in US) or liters (international standard).</span>
+                                </label>
+                                <select id="volumeUnit">
+                                    <option value="gallons">Gallons</option>
+                                    <option value="liters" selected>Liters</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="tank-presets">
+                         <h3 class="tooltip">Tank Volume Presets
+                             <span class="tooltip-text">Click any preset to instantly load common tank dimensions. Perfect for getting started or comparing different setups.</span>
+                         </h3>
+                         <div class="preset-buttons">
+                             <button class="preset-btn preset-btn-volume tooltip" data-width="20" data-length="10" data-height="16" data-icon="💧" data-label-imp="10 gal" data-label-met="38 L">
+                                 <span class="preset-label-text">38 L</span>
+                                 <span class="tooltip-text">Perfect for beginners or desktop setups. Low maintenance and space requirements.</span>
+                             </button>
+                             <button class="preset-btn preset-btn-volume tooltip" data-width="24" data-length="12" data-height="16" data-icon="💧" data-label-imp="20 gal" data-label-met="76 L">
+                                 <span class="preset-label-text">76 L</span>
+                                 <span class="tooltip-text">Great starter tank for most freshwater fish. Easy to maintain and budget-friendly.</span>
+                             </button>
+                             <button class="preset-btn preset-btn-volume tooltip" data-width="36" data-length="18" data-height="24" data-icon="💧" data-label-imp="55 gal" data-label-met="208 L">
+                                 <span class="preset-label-text">208 L</span>
+                                 <span class="tooltip-text">Community tank sweet spot. Room for multiple fish and more stable water parameters.</span>
+                             </button>
+                             <button class="preset-btn preset-btn-volume tooltip" data-width="48" data-length="24" data-height="24" data-icon="💧" data-label-imp="75 gal" data-label-met="284 L">
+                                 <span class="preset-label-text">284 L</span>
+                                 <span class="tooltip-text">Serious hobbyist tank. More space for larger fish and complex aquascapes.</span>
+                             </button>
+                             <button class="preset-btn preset-btn-volume tooltip" data-width="60" data-length="30" data-height="30" data-icon="💧" data-label-imp="150 gal" data-label-met="568 L">
+                                 <span class="preset-label-text">568 L</span>
+                                 <span class="tooltip-text">Showpiece tank requiring professional setup. Significant space and budget needed.</span>
+                             </button>
+                         </div>
+                     </div>
+
+                     <div class="result-item volume-control">
+                        <label for="volumeInput" class="result-label tooltip">Volume:
+                            <span class="tooltip-text">Total internal volume of tank. Adjust to auto-update dimensions.</span>
+                        </label>
+                        <div class="slider-row">
+                            <input type="range" id="volumeInput" min="5" max="500" step="0.1" value="48">
+                            <span class="value-display volume-value" id="volumeValue">48</span>
+                            <span class="unit-display volume-unit" id="volumeInputUnit">L</span>
+                        </div>
+                    </div>
+                    <div class="result-item volume-control">
+                        <label for="waterVolumeInput" class="result-label tooltip">Water Volume:
+                            <span class="tooltip-text">Actual water volume after accounting for 10% displacement. Adjust to auto-update dimensions.</span>
+                        </label>
+                        <div class="slider-row">
+                            <input type="range" id="waterVolumeInput" min="5" max="500" step="0.1" value="48">
+                            <span class="value-display volume-value" id="waterVolumeValue">48</span>
+                            <span class="unit-display volume-unit" id="waterVolumeInputUnit">L</span>
+                        </div>
+                    <div class="result-item">
+                       <span class="result-label tooltip">Surface Area (Top):
+                           <span class="tooltip-text">Surface area of water surface (length × width). Critical for oxygen exchange - more area = more oxygen for fish.</span>
+                       </span>
+                       <div style="display: flex; align-items: center; gap: 10px;">
+                           <span class="result-value" id="surfaceAreaResult">--</span>
+                           <div class="surface-area-indicator" id="surfaceAreaIndicator">
+                               <span class="indicator-dot"></span>
+                               <span class="surface-area-text" id="surfaceAreaText">Calculating...</span>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="result-item">
+                       <span class="result-label tooltip">Recommended Glass:
+                           <span class="tooltip-text">Glass thickness needed for safety based on water depth and tank size. Follow these recommendations carefully.</span>
+                       </span>
+                       <span class="result-value" id="glassResult">--</span>
+                   </div>
+                   <div class="result-item">
+                       <span class="result-label tooltip">Glass Notes:
+                           <span class="tooltip-text">Additional safety considerations and recommendations for your specific tank setup.</span>
+                       </span>
+                       <span class="result-value result-notes" id="glassNotes">--</span>
+                   </div>
+
+                    <div class="equipment-section">
+                        <h3 class="tooltip">Recommended Equipment
+                            <span class="tooltip-text">Essential equipment suggestions based on your tank size. These are starting recommendations - consult local experts for your specific needs.</span>
+                        </h3>
+
+                        <div class="equipment-group">
+                            <h4 class="group-title">Essential Equipment</h4>
+                            <div class="equipment-item">
+                                <span class="equipment-label tooltip">Filter:
+                                    <span class="tooltip-text">Removes waste and provides water circulation. GPH rating should be 3-5 times tank volume per hour.</span>
+                                </span>
+                                <span class="equipment-value" id="filterRecommendation">--</span>
+                            </div>
+                            <div class="equipment-item">
+                                <span class="equipment-label tooltip">Heater:
+                                    <span class="tooltip-text">Maintains stable water temperature. 3-5 watts per gallon is typical for tropical fish.</span>
+                                </span>
+                                <span class="equipment-value" id="heaterRecommendation">--</span>
+                            </div>
+                            <div class="equipment-item">
+                                <span class="equipment-label tooltip">Air Pump:
+                                    <span class="tooltip-text">Provides oxygen exchange and surface agitation. Essential for fish health and gas exchange.</span>
+                                </span>
+                                <span class="equipment-value" id="airPumpRecommendation">--</span>
+                            </div>
+                            <div class="equipment-item">
+                                <span class="equipment-label tooltip">Thermometer:
+                                    <span class="tooltip-text">Monitors water temperature for stability. Critical when using heaters or in warm environments.</span>
+                                </span>
+                                <span class="equipment-value" id="thermometerRecommendation">--</span>
+                            </div>
+                            <div class="equipment-item">
+                                <span class="equipment-label tooltip">Circulation Pump:
+                                    <span class="tooltip-text">Creates water movement and eliminates dead spots. Essential for water quality and fish health.</span>
+                                </span>
+                                <span class="equipment-value" id="circulationPumpRecommendation">--</span>
+                            </div>
+                        </div>
+
+                        <div class="equipment-group">
+                            <h4 class="group-title">Advanced Equipment</h4>
+                            <div class="equipment-item">
+                                <span class="equipment-label tooltip">UV Sterilizer:
+                                    <span class="tooltip-text">Controls algae and bacteria in water column. UV wattage should match filter flow rate (1W per 100 GPH).</span>
+                                </span>
+                                <span class="equipment-value" id="uvSterilizerRecommendation">--</span>
+                            </div>
+                            <div class="equipment-item">
+                                <span class="equipment-label tooltip">Water Chiller:
+                                    <span class="tooltip-text">Critical in warm climates for temperature-sensitive fish. Prevents overheating and maintains stable conditions.</span>
+                                </span>
+                                <span class="equipment-value" id="chillerRecommendation">--</span>
+                            </div>
+                            <div class="equipment-item">
+                                <span class="equipment-label tooltip">Auto Top-Off:
+                                    <span class="tooltip-text">Maintains stable water levels automatically. Prevents low water emergencies.</span>
+                                </span>
+                                <span class="equipment-value" id="atoRecommendation">--</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+               </div>
+            </div>
+
+              <div class="visualization-section">
+                  <h2>3D Preview</h2>
+                  <div class="canvas-container">
+                      <div id="tank-canvas"></div>
+                  </div>
+
+                  <div class="view-controls">
+                      <div class="view-presets">
+                          <div class="preset-buttons">
+                              <button class="preset-icon-btn tooltip" onclick="setViewPreset('front')" aria-label="Front view">
+                                  <span class="preset-icon">≡</span>
+                                  <span class="tooltip-text">Front view</span>
+                              </button>
+                              <button class="preset-icon-btn tooltip" onclick="setViewPreset('side')" aria-label="Side view">
+                                  <span class="preset-icon">∥</span>
+                                  <span class="tooltip-text">Side view</span>
+                              </button>
+                              <button class="preset-icon-btn tooltip" onclick="setViewPreset('top')" aria-label="Top view">
+                                  <span class="preset-icon">≋</span>
+                                  <span class="tooltip-text">Top view</span>
+                              </button>
+                              <button class="preset-icon-btn tooltip" onclick="setViewPreset('isometric')" aria-label="3D view">
+                                  <span class="preset-icon">▣</span>
+                                  <span class="tooltip-text">3D view</span>
+                              </button>
+                          </div>
+                      </div>
+
+                      <div class="floating-controls">
+                          <div class="zoom-control">
+                              <button class="zoom-btn tooltip" onclick="zoomIn()">
+                                  <span class="zoom-icon">+</span>
+                                  <span class="tooltip-text">Zoom in</span>
+                              </button>
+                              <div class="zoom-divider"></div>
+                              <button class="zoom-btn tooltip" onclick="zoomOut()">
+                                  <span class="zoom-icon">−</span>
+                                  <span class="tooltip-text">Zoom out</span>
+                              </button>
+                          </div>
+
+                          <div class="action-controls">
+                              <button class="icon-btn tooltip" id="autoRotateToggle" onclick="toggleAutoRotate()">
+                                  <span class="icon-symbol">⟳</span>
+                                  <span class="tooltip-text">Auto rotate</span>
+                              </button>
+                              <button class="icon-btn tooltip" onclick="resetView()">
+                                  <span class="icon-symbol">⟲</span>
+                                  <span class="tooltip-text">Reset view</span>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

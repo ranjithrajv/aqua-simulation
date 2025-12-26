@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Calculations</title>
+</head>
+<body>
+    <h1>Test Calculations</h1>
+    <div>
+        <label>Width: <input type="range" id="width" min="10" max="120" value="48"></label>
+        <span id="widthValue">48</span>
+    </div>
+    <div>
+        <label>Length: <input type="range" id="length" min="10" max="120" value="24"></label>
+        <span id="lengthValue">24</span>
+    </div>
+    <div>
+        <label>Height: <input type="range" id="height" min="12" max="60" value="24"></label>
+        <span id="heightValue">24</span>
+    </div>
+
+    <h2>Results</h2>
+    <div>Volume: <span id="volumeResult">--</span></div>
+    <div>Water Volume: <span id="waterVolumeResult">--</span></div>
+    <div>Glass: <span id="glassResult">--</span></div>
+    <div>Notes: <span id="glassNotes">--</span></div>
+
+    <script type="module">
+        import { TankCalculator } from './js/tank-calculator.js';
+        import { GlassRecommender } from './js/glass-recommendations.js';
+
+        const calculator = new TankCalculator();
+        const recommender = new GlassRecommender();
+
+        function updateCalculations() {
+            console.log('updateCalculations called');
+
+            let width = parseFloat(document.getElementById('width').value);
+            let length = parseFloat(document.getElementById('length').value);
+            let height = parseFloat(document.getElementById('height').value);
+
+            console.log('Dimensions:', width, length, height);
+
+            if (isNaN(width) || isNaN(length) || isNaN(height)) {
+                console.error('Invalid dimensions');
+                return;
+            }
+
+            const volumeLiters = calculator.calculateVolume(length, width, height);
+            const volumeGallons = calculator.convertToGallons(volumeLiters);
+            const waterLiters = calculator.adjustForDisplacement(volumeLiters);
+            const waterGallons = calculator.convertToGallons(waterLiters);
+
+            const glassRecommendation = recommender.getRecommendation(length, width, height);
+            const detailedRecommendation = recommender.getDetailedRecommendation(length, width, height);
+
+            console.log('Results:', volumeLiters, volumeGallons, glassRecommendation);
+
+            // Update displays
+            document.getElementById('volumeResult').textContent = `${volumeGallons.toFixed(1)} gal (${volumeLiters.toFixed(1)} L)`;
+            document.getElementById('waterVolumeResult').textContent = `${waterGallons.toFixed(1)} gal (${waterLiters.toFixed(1)} L)`;
+            document.getElementById('glassResult').textContent = glassRecommendation;
+            document.getElementById('glassNotes').textContent = detailedRecommendation.safetyNote || 'Standard aquarium glass recommended';
+        }
+
+        // Set up event listeners
+        ['width', 'length', 'height'].forEach(id => {
+            const input = document.getElementById(id);
+            const display = document.getElementById(id + 'Value');
+
+            input.addEventListener('input', (e) => {
+                display.textContent = e.target.value;
+                updateCalculations();
+            });
+
+            display.textContent = input.value;
+        });
+
+        // Initial calculation
+        updateCalculations();
+    </script>
+</body>
+</html>
