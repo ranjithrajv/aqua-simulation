@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { TankCalculator } from '../../src/domain/calculations/TankCalculator.js';
+import { TankCalculator } from '../../../src/domain/calculations/TankCalculator.js';
 
 describe('TankCalculator', () => {
   let calculator;

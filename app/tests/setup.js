@@ -1,8 +1,5 @@
 // Test setup file for Vitest
 import { expect, afterEach } from 'vitest';
-import { cleanup } from '@testing-library/dom';
 
-// Cleanup after each test
-afterEach(() => {
-  cleanup();
-});
+// No cleanup needed for our current test setup
+// We'll add cleanup when we test DOM components
