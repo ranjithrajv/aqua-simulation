@@ -1,0 +1,364 @@
+/* Custom styles for Tailwind CSS integration */
+
+/* Slider styles */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ddd;
+  outline: none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.volume-control input[type='range'] {
+  height: 8px;
+  border-radius: 4px;
+}
+
+.volume-control input[type='range']::-webkit-slider-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.volume-control input[type='range']::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Tooltip hover states */
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Result item styles */
+.result-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+/* Dimension finder styles */
+.dimension-finder-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e1e5e9;
+}
+
+.dimension-finder-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dimension-finder-controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.dimension-finder-controls input[type='number'] {
+  width: 100px;
+  padding: 6px 10px;
+  border: 2px solid #e1e5e9;
+  border-radius: 6px;
+  background: white;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.dimension-finder-controls input[type='number']:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.dimension-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.dimension-result-card {
+  background: white;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dimension-result-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.dimension-result-card h4 {
+  color: #667eea;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.dimension-result-card p {
+  color: #555;
+  font-size: 0.85rem;
+  margin: 4px 0;
+}
+
+/* Equipment item styles */
+.equipment-item {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.equipment-item:last-child {
+  border-bottom: none;
+}
+
+.equipment-label {
+  font-weight: 500;
+  color: #555;
+}
+
+.equipment-value {
+  font-weight: bold;
+  color: #667eea;
+  font-size: 1.1rem;
+}
+
+/* Support recommendations */
+.support-recommendations {
+  margin-top: 15px;
+}
+
+.recommendation-item {
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.recommendation-item.info {
+  background: rgba(102, 126, 234, 0.1);
+  border-left: 4px solid #667eea;
+}
+
+.recommendation-item.warning {
+  background: rgba(243, 156, 18, 0.1);
+  border-left: 4px solid #f39c12;
+}
+
+/* Value display */
+.value-display {
+  min-width: 60px;
+  text-align: center;
+  font-weight: bold;
+  color: #667eea;
+  font-size: 1.1rem;
+  background: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #e1e5e9;
+}
+
+.unit-display {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Slider row */
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-row input[type='range'] {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: #ddd;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+/* Error message */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+/* Print styles */
+@media print {
+  .action-bar,
+  .saved-configs-section,
+  .tooltip,
+  .dimension-finder-section {
+    display: none;
+  }
+
+  .top-section {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .top-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Placement tips */
+.placement-tips h4 {
+  color: var(--text-primary);
+  margin: 0 0 10px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.placement-tips ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.placement-tips li {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  line-height: 1.5;
+  position: relative;
+}
+
+.placement-tips li::before {
+  content: '•';
+  color: #667eea;
+  font-weight: bold;
+  position: absolute;
+  left: -15px;
+}
+
+/* Chart styles */
+.chart-grid {
+  margin-top: 20px;
+}
+
+.chart-card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chart-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container {
+  position: relative;
+}
+
+/* D3 Chart elements */
+.bar {
+  fill: #667eea;
+  transition: fill 0.3s ease;
+}
+
+.bar:hover {
+  fill: #5a67d8;
+}
+
+.line {
+  stroke: #667eea;
+  stroke-width: 2;
+  fill: none;
+}
+
+.dot {
+  fill: #667eea;
+  transition: r 0.2s ease;
+}
+
+.dot:hover {
+  fill: #5a67d8;
+  r: 7;
+}
+
+.axis {
+  font-size: 12px;
+}
+
+.axis path,
+.axis line {
+  stroke: #aaa;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  fill: #666;
+}
+
+/* Responsive chart adjustments */
+@media (max-width: 768px) {
+  .chart-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .chart-container {
+    height: 250px !important;
+  }
+}
+
+/* Button states */
+.action-btn.saved {
+  background: #4CAF50 !important;
+  transform: scale(1.05);
+}
+
+.action-btn.saved .action-text {
+  font-weight: bold;
+}
+
+.action-btn.saved::after {
+  content: '✓';
+  margin-left: 5px;
+}

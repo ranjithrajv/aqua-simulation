@@ -1,0 +1,7 @@
+/* Main stylesheet */
+@import url('./tailwind.css');
+
+/* Component-specific styles */
+@import url('./components/forms.css');
+@import url('./components/modals.css');
+@import url('./components/charts.css');

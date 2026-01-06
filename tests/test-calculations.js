@@ -6,8 +6,8 @@ import { GlassRecommender } from '../app/js/glass-recommendations.js';
 global.document = {
     getElementById: function(id) {
         const mockElements = {
-            'width': { value: '48' },
-            'length': { value: '24' },
+            'width': { value: '24' },
+            'length': { value: '48' },
             'height': { value: '24' },
             'volumeResult': { textContent: '--' },
             'waterVolumeResult': { textContent: '--' },

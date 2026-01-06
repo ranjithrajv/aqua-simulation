@@ -1,4 +1,5 @@
-// DOM manipulation utilities to reduce repetitive code
+import { logger } from './logger.js';
+
 export class DOMHelper {
     /**
      * Get element by ID with error handling
@@ -19,7 +20,7 @@ export class DOMHelper {
         if (element) {
             element.textContent = text;
         } else {
-            console.warn(`Element with ID '${id}' not found`);
+            logger.warn(`Element with ID '${id}' not found`);
         }
     }
 
@@ -33,7 +34,7 @@ export class DOMHelper {
         if (element) {
             element.value = value;
         } else {
-            console.warn(`Element with ID '${id}' not found`);
+            logger.warn(`Element with ID '${id}' not found`);
         }
     }
 
@@ -94,7 +95,7 @@ export class DOMHelper {
         if (element) {
             element.addEventListener(event, handler);
         } else {
-            console.warn(`Cannot add event listener: element '${id}' not found`);
+            logger.warn(`Cannot add event listener: element '${id}' not found`);
         }
     }
 

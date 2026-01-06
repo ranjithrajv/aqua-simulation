@@ -1,0 +1,19 @@
+/* Saved Configs Actions */
+.saved-configs-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.saved-configs-actions .action-btn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+.saved-configs-actions .action-icon {
+    font-size: 0.9rem;
+}
+
+.saved-configs-actions .action-text {
+    font-size: 0.85rem;
+}

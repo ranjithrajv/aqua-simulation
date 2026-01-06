@@ -1,0 +1,69 @@
+{
+  "testCases": [
+    {
+      "name": "Small Nano Tank",
+      "dimensions": { "width": 10, "length": 20, "height": 16 },
+      "expected": {
+        "volumeLiters": 52.4,
+        "volumeGallons": 13.9,
+        "waterLiters": 47.2,
+        "waterGallons": 12.5,
+        "glassThickness": "6mm (small-medium tanks)",
+        "glassWeightLbs": 29.4,
+        "totalWeightLbs": 133.7
+      }
+    },
+    {
+      "name": "Standard 20 Gallon Tank",
+      "dimensions": { "width": 24, "length": 48, "height": 16 },
+      "expected": {
+        "volumeLiters": 302.0,
+        "volumeGallons": 79.8,
+        "waterLiters": 271.8,
+        "waterGallons": 71.8,
+        "glassThickness": "6mm (small-medium tanks)",
+        "glassWeightLbs": 100.0,
+        "totalWeightLbs": 721.3
+      }
+    },
+    {
+      "name": "Standard 55 Gallon Tank",
+      "dimensions": { "width": 12, "length": 48, "height": 21 },
+      "expected": {
+        "volumeLiters": 198.2,
+        "volumeGallons": 52.4,
+        "waterLiters": 178.4,
+        "waterGallons": 47.1,
+        "glassThickness": "6mm (small-medium tanks)",
+        "glassWeightLbs": 67.3,
+        "totalWeightLbs": 1618.6
+      }
+    },
+    {
+      "name": "Standard 120 Gallon Tank",
+      "dimensions": { "width": 24, "length": 48, "height": 24 },
+      "expected": {
+        "volumeLiters": 453.1,
+        "volumeGallons": 119.7,
+        "waterLiters": 407.8,
+        "waterGallons": 107.7,
+        "glassThickness": "6mm (small-medium tanks)",
+        "glassWeightLbs": 125.0,
+        "totalWeightLbs": 1148.2
+      }
+    },
+    {
+      "name": "Large 150 Gallon Tank",
+      "dimensions": { "width": 30, "length": 60, "height": 30 },
+      "expected": {
+        "volumeLiters": 885.0,
+        "volumeGallons": 233.8,
+        "waterLiters": 796.5,
+        "waterGallons": 210.4,
+        "glassThickness": "10mm (large tanks)",
+        "glassWeightLbs": 360.2,
+        "totalWeightLbs": 5114.9
+      }
+    }
+  ]
+}

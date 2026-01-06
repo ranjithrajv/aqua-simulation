@@ -1,0 +1,29 @@
+{
+  "conversions": {
+    "GALLONS_TO_LITERS": 3.78541,
+    "LITERS_TO_GALLONS": 0.264172,
+    "INCHES_TO_CM": 2.54,
+    "CM_TO_INCHES": 0.393701,
+    "DISPLACEMENT_PERCENT": 0.1
+  },
+  "unit_systems": {
+    "IMPERIAL": "imperial",
+    "METRIC": "metric"
+  },
+  "volume_units": {
+    "GALLONS": "gallons",
+    "LITERS": "liters"
+  },
+  "dimensions": {
+    "WIDTH": "width",
+    "LENGTH": "length",
+    "HEIGHT": "height"
+  },
+  "default_values": {
+    "WIDTH_INCHES": 48,
+    "LENGTH_INCHES": 24,
+    "HEIGHT_INCHES": 24,
+    "UNIT_SYSTEM": "imperial",
+    "VOLUME_UNIT": "liters"
+  }
+}

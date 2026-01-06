@@ -1,0 +1,37 @@
+/* Equipment section */
+.equipment-group {
+    margin-bottom: 25px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.group-title {
+    background: var(--bg-light);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 12px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+}
+
+.equipment-group:first-of-type .group-title {
+    background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+    color: var(--success);
+}
+
+.equipment-group:last-of-type .group-title {
+    background: linear-gradient(135deg, #fff3cd 0%, #fef8e1 100%);
+    color: var(--warning);
+}
+
+.equipment-group .equipment-item {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.equipment-group .equipment-item:last-child {
+    border-bottom: none;
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Aquarium Simulation Tests</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Aquarium Simulation Tests</h1>
+    <div id="test-results"></div>
+    
+    <script type="module">
+        // Import the test functions
+        import { TankCalculator } from './app/js/tank-calculator.js';
+        import { GlassRecommender } from './app/js/glass-recommendations.js';
+        import { EquipmentRecommender } from './app/js/equipment-recommendations.js';
+        import { GlassPanelCalculator, WeightDistributionCalculator } from './app/js/glass-panel-calculator.js';
+        
+        // Wait a bit for JSON data to load
+        setTimeout(async () => {
+            document.getElementById('test-results').innerHTML = '<p>Loading JSON data and running tests...</p>';
+            
+            // Load test cases from JSON
+            try {
+                const response = await fetch('./app/data/test-cases.json');
+                const data = await response.json();
+                const testCases = data.testCases;
+                
+                const calculator = new TankCalculator();
+                const recommender = new GlassRecommender();
+                const equipmentRecommender = new EquipmentRecommender();
+                const glassPanelCalculator = new GlassPanelCalculator(recommender);
+                const weightDistributionCalculator = new WeightDistributionCalculator();
+                
+                let passedTests = 0;
+                let totalTests = 0;
+                
+                for (const testCase of testCases) {
+                    totalTests++;
+                    const volumeData = calculator.getVolumeInfo(
+                        testCase.dimensions.length,
+                        testCase.dimensions.width,
+                        testCase.dimensions.height
+                    );
+                    
+                    const panels = glassPanelCalculator.calculatePanels(
+                        testCase.dimensions.length,
+                        testCase.dimensions.width,
+                        testCase.dimensions.height
+                    );
+                    
+                    const glassWeightTotal = glassPanelCalculator.getTotalGlassWeight(panels);
+                    
+                    // Check if the calculated values match expected values
+                    const volumeMatch = Math.abs(volumeData.waterGallons - testCase.expected.waterGallons) < 0.5;
+                    const glassWeightMatch = Math.abs(parseFloat(glassWeightTotal.lbs) - testCase.expected.glassWeightLbs) < 1;
+                    
+                    if (volumeMatch && glassWeightMatch) {
+                        passedTests++;
+                        document.getElementById('test-results').innerHTML += 
+                            `<p style="color: green;">✅ ${testCase.name} - PASSED</p>`;
+                    } else {
+                        document.getElementById('test-results').innerHTML += 
+                            `<p style="color: red;">❌ ${testCase.name} - FAILED<br>
+                            Expected water gallons: ${testCase.expected.waterGallons}, got: ${volumeData.waterGallons}<br>
+                            Expected glass weight: ${testCase.expected.glassWeightLbs}, got: ${glassWeightTotal.lbs}</p>`;
+                    }
+                }
+                
+                document.getElementById('test-results').innerHTML += 
+                    `<h2>Final Results: ${passedTests}/${totalTests} tests passed (${Math.round((passedTests/totalTests)*100)}%)</h2>`;
+                
+            } catch (error) {
+                document.getElementById('test-results').innerHTML = 
+                    `<p style="color: red;">Error loading test cases: ${error.message}</p>`;
+            }
+        }, 1000); // Wait 1 second to allow JSON loading
+    </script>
+</body>
+</html>
