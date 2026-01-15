@@ -47,8 +47,25 @@ async function buildDocs() {
       await fse.copy(sourceJsDir, destJsDir);
     }
 
+    // Update index.html to work with GitHub Pages subdirectory
+    const indexPath = path.join(destDir, 'index.html');
+    if (await fse.pathExists(indexPath)) {
+      let indexContent = await fse.readFile(indexPath, 'utf8');
+
+      // Add base tag to ensure proper relative path resolution on GitHub Pages
+      if (!indexContent.includes('<base href="./">')) {
+        indexContent = indexContent.replace(
+          /<head>/i,
+          '<head>\n    <base href="./">'
+        );
+      }
+
+      await fse.writeFile(indexPath, indexContent);
+    }
+
     console.log('✅ Successfully built docs for GitHub Pages!');
     console.log(`📁 Files copied from ${sourceDir} to ${destDir}`);
+    console.log('🔧 Fixed relative paths for GitHub Pages subdirectory deployment');
   } catch (error) {
     console.error('❌ Error building docs:', error.message);
     process.exit(1);
