@@ -97,6 +97,18 @@ async function buildDocs() {
       await fse.writeFile(indexPath, indexContent);
     }
 
+    // Fix the styles.css file to remove invalid imports
+    const stylesCssPath = path.join(destDir, 'css', 'styles.css');
+    if (await fse.pathExists(stylesCssPath)) {
+      let cssContent = await fse.readFile(stylesCssPath, 'utf8');
+
+      // Remove any import statements that reference non-existent CSS files
+      cssContent = cssContent.replace(/@import\s+url\(['"]\.\/tailwind-custom\.css['"]\);?\s*\n?/g, '');
+      cssContent = cssContent.replace(/@import\s+url\(['"]\.\/[^'"]*tailwind[^'"]*\.css['"]\);?\s*\n?/g, '');
+
+      await fse.writeFile(stylesCssPath, cssContent);
+    }
+
     console.log('✅ Successfully built docs for GitHub Pages!');
     console.log(`📁 Files copied from ${sourceDir} to ${destDir}`);
     console.log('🔧 Fixed relative paths for GitHub Pages subdirectory deployment');
