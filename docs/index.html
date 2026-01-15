@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; object-src 'none'; frame-src 'none';">
+    <title>Aquarium Tank Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#667eea',
+                        'primary-dark': '#5a67d8',
+                        'primary-light': '#8b9cf7',
+                        success: '#27ae60',
+                        'success-light': '#4CAF50',
+                        warning: '#f39c12',
+                        error: '#e74c3c',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/tailwind-custom.css">
+</head>
+<body class="font-sans leading-relaxed text-gray-800 bg-gray-50 p-5">
+    <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+        <header class="bg-gradient-to-r from-primary to-purple-600 text-white p-8 text-center">
+            <h1 class="text-4xl font-light mb-2.5">Aquarium Tank Simulator</h1>
+            <p class="text-lg opacity-90">Design your aquarium tank and get glass thickness recommendations</p>
+            <div class="header-links mt-4">
+                <a href="#" id="privacyPolicyLink" class="text-white text-sm opacity-80 hover:opacity-100 hover:underline transition-opacity duration-200">Privacy Policy</a>
+            </div>
+        </header>
+
+        <div class="main-content flex flex-col gap-8 p-8">
+            <div class="top-section grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="input-section">
+                    <div class="input-header flex justify-between items-start flex-col gap-4 mb-5">
+                        <h2 class="text-gray-800 text-2xl font-semibold m-0">Tank Dimensions</h2>
+                        <div class="unit-controls flex gap-5 items-center">
+                             <div class="unit-selector flex items-center gap-2">
+                                  <label for="unitSystem" class="tooltip relative inline-block cursor-help">
+                                      Dimensions:
+                                      <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                          Choose measurement system for tank dimensions. Imperial (inches) is common in the US, metric (cm) elsewhere.
+                                          <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                      </span>
+                                  </label>
+                                  <select id="unitSystem" class="px-2.5 py-1.5 border border-gray-200 rounded-md bg-white text-xs cursor-pointer min-w-[100px] focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                     <option value="imperial">Inches (US)</option>
+                                     <option value="metric">Centimeters</option>
+                                 </select>
+                         </div>
+                     </div>
+
+                      <div class="tank-presets mb-6 p-5 bg-gray-50 rounded-lg border border-gray-200">
+                          <h3 class="tooltip relative inline-block cursor-help text-gray-800 mb-4 text-base font-semibold">
+                              Tank Dimensions Presets
+                              <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                  Click any preset to instantly load common tank dimensions. Perfect for getting started or comparing different setups.
+                                  <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                              </span>
+                          </h3>
+                          <div class="preset-buttons grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2.5">
+                              <button class="preset-btn preset-btn-dimensions tooltip relative bg-primary text-white border-none py-2 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 text-center hover:-translate-y-px hover:shadow-lg hover:shadow-primary/30 active:translate-y-0" data-width="10" data-length="20" data-height="16" data-icon="📐" data-label-imp="20×10×16 in" data-label-met="51×25×41 cm">
+                                 <span class="preset-label-text block">20×10×16 in</span>
+                                 <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                     Perfect for beginners or desktop setups. Low maintenance and space requirements.
+                                     <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                 </span>
+                             </button>
+                             <button class="preset-btn preset-btn-dimensions tooltip relative bg-primary text-white border-none py-2 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 text-center hover:-translate-y-px hover:shadow-lg hover:shadow-primary/30 active:translate-y-0" data-width="12" data-length="24" data-height="16" data-icon="📐" data-label-imp="24×12×16 in" data-label-met="61×30×41 cm">
+                              <span class="preset-label">
+                                  <span class="preset-icon">📐</span>
+                                  <span class="preset-label-text">24×12×16 in</span>
+                              </span>
+                          </button>
+
+                          <div class="preset-group">
+                              <button class="preset-btn preset-btn-dimensions tooltip relative bg-primary text-white border-none py-2 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 text-center hover:-translate-y-px hover:shadow-lg hover:shadow-primary/30 active:translate-y-0" data-width="18" data-length="36" data-height="24" data-icon="📐" data-label-imp="36×18×24 in" data-label-met="91×46×61 cm">
+                              <span class="preset-label">
+                                  <span class="preset-icon">📐</span>
+                                  <span class="preset-label-text">36×18×24 in</span>
+                              </span>
+                          </button>
+                          </div>
+
+                          <div class="preset-group">
+                              <button class="preset-btn preset-btn-dimensions tooltip relative bg-primary text-white border-none py-2 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 text-center hover:-translate-y-px hover:shadow-lg hover:shadow-primary/30 active:translate-y-0" data-width="24" data-length="48" data-height="24" data-icon="📐" data-label-imp="48×24×24 in" data-label-met="122×61×61 cm">
+                              <span class="preset-label">
+                                  <span class="preset-icon">📐</span>
+                                  <span class="preset-label-text">48×24×24 in</span>
+                              </span>
+                          </button>
+                          </div>
+
+                          <div class="preset-group">
+                              <button class="preset-btn preset-btn-dimensions tooltip relative bg-primary text-white border-none py-2 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 text-center hover:-translate-y-px hover:shadow-lg hover:shadow-primary/30 active:translate-y-0" data-width="30" data-length="60" data-height="30" data-icon="📐" data-label-imp="60×30×30 in" data-label-met="152×76×76 cm">
+                                 <span class="preset-label-text block">60×30×30 in</span>
+                                 <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                     Showpiece tank requiring professional setup. Significant space and budget needed.
+                                     <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                 </span>
+                             </button>
+                          </div>
+                     </div>
+
+                        <div class="dimension-controls flex flex-col gap-5 mb-8">
+                           <div class="ratio-lock-control flex items-center mb-2.5">
+                               <label class="checkbox-label tooltip relative inline-block cursor-help px-3 py-1.5 text-xs">
+                                   <input type="checkbox" id="ratioLock">
+                                   <span class="toggle-text">Lock Aspect Ratio</span>
+                                   <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                       Maintain tank proportions when adjusting dimensions. All dimensions scale together.
+                                       <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                   </span>
+                               </label>
+                           </div>
+                           <div class="water-level-control flex items-center gap-2.5 px-4 py-3.5 bg-gray-50 rounded-lg mb-2.5">
+                               <label for="waterLevel" class="dimension-label tooltip relative inline-block cursor-help min-w-[90px] text-sm">Water Level
+                                   <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                       Adjust the water fill level in the tank. Leave space for equipment and prevent overflow.
+                                       <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                   </span>
+                               </label>
+                               <input type="range" id="waterLevel" min="50" max="95" step="1" value="85">
+                               <span class="value-display" id="waterLevelValue">85</span>
+                               <span class="unit-display">%</span>
+                           </div>
+                           <div class="control-group flex items-center gap-2.5 px-4 py-3.5 bg-gray-50 rounded-lg mb-2.5">
+                                <label for="width" class="dimension-label tooltip relative inline-block cursor-help min-w-[80px] font-medium text-gray-600 text-base">Width
+                                    <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                        Internal width of the tank (side to side). Affects volume and glass thickness requirements.
+                                        <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                    </span>
+                                </label>
+                                <input type="range" id="width" min="10" max="120" step="1" value="24">
+                                <span class="value-display" id="widthValue">24</span>
+                               <span class="unit-display" id="widthUnit">in</span>
+                               <div class="error-message" id="widthError"></div>
+                           </div>
+
+                          <div class="control-group flex items-center gap-2.5 px-4 py-3.5 bg-gray-50 rounded-lg mb-2.5">
+                               <label for="length" class="dimension-label tooltip relative inline-block cursor-help min-w-[80px] font-medium text-gray-600 text-base">Length
+                                   <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                       External length of the tank (front to back). Determines the viewing area and affects structural requirements.
+                                       <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                   </span>
+                               </label>
+                               <input type="range" id="length" min="10" max="120" step="1" value="48">
+                               <span class="value-display" id="lengthValue">48</span>
+                              <span class="unit-display" id="lengthUnit">in</span>
+                              <div class="error-message" id="lengthError"></div>
+                          </div>
+
+                          <div class="control-group flex items-center gap-2.5 px-4 py-3.5 bg-gray-50 rounded-lg mb-2.5">
+                              <label for="height" class="dimension-label tooltip relative inline-block cursor-help min-w-[80px] font-medium text-gray-600 text-base">Height
+                                  <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                      Internal height of the tank. Water depth affects glass thickness - deeper tanks need thicker glass.
+                                      <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                  </span>
+                              </label>
+                              <input type="range" id="height" min="12" max="60" step="1" value="24">
+                              <span class="value-display" id="heightValue">24</span>
+                              <span class="unit-display" id="heightUnit">in</span>
+                              <div class="error-message" id="heightError"></div>
+                          </div>
+                       </div>
+                </div>
+
+                <div class="results-section">
+                    <div class="action-bar flex gap-2.5 items-center">
+                        <button class="action-btn tooltip relative flex items-center gap-2 bg-primary text-white border-none py-2 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 hover:-translate-y-px hover:shadow-lg active:translate-y-0" id="saveConfigBtn">
+                            <span class="action-icon">💾</span>
+                            <span class="action-text">Save Setup</span>
+                            <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                Save current tank configuration for later use.
+                                <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                            </span>
+                        </button>
+                        <button class="action-btn tooltip relative flex items-center gap-2 bg-primary text-white border-none py-2 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 hover:-translate-y-px hover:shadow-lg active:translate-y-0" id="copySpecsBtn">
+                            <span class="action-icon">💾</span>
+                            <span class="action-text">Save Specifications</span>
+                            <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                Save all tank specifications to a text file for easy sharing or record-keeping.
+                                <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                            </span>
+                        </button>
+                        <button class="action-btn tooltip relative flex items-center gap-2 bg-primary text-white border-none py-2 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 hover:-translate-y-px hover:shadow-lg active:translate-y-0" id="exportSummaryBtn">
+                            <span class="action-icon">📄</span>
+                            <span class="action-text">Export Summary</span>
+                            <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                Save a summary image with all tank specifications.
+                                <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="saved-configs-section" id="savedConfigsSection">
+                    <div class="saved-configs-header">
+                        <h3>Saved Configurations</h3>
+                        <div class="saved-configs-actions flex gap-2.5 items-center">
+                            <button class="action-btn tooltip relative flex items-center gap-2 bg-primary text-white border-none py-1.5 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 hover:-translate-y-px hover:shadow-lg active:translate-y-0" id="exportConfigsBtn">
+                                <span class="action-icon text-[0.9rem]">📤</span>
+                                <span class="action-text text-xs">Export</span>
+                                <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                    Export all saved configurations to a JSON file.
+                                    <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                </span>
+                            </button>
+                            <button class="action-btn tooltip relative flex items-center gap-2 bg-primary text-white border-none py-1.5 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 hover:-translate-y-px hover:shadow-lg active:translate-y-0" id="importConfigsBtn">
+                                <span class="action-icon text-[0.9rem]">📥</span>
+                                <span class="action-text text-xs">Import</span>
+                                <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                    Import configurations from a JSON file.
+                                    <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                </span>
+                            </button>
+                            <button class="clear-all-btn tooltip relative bg-white text-gray-800 border border-gray-300 py-1.5 px-3 rounded-md cursor-pointer text-xs font-medium hover:bg-gray-50 transition-colors" id="clearAllBtn">
+                                <span>Clear All</span>
+                                <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                    Delete all saved configurations.
+                                    <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                        <div class="saved-configs-list" id="savedConfigsList">
+                            <div class="no-saved-configs" id="noSavedConfigs">
+                                <span class="no-config-icon">📁</span>
+                                <span class="no-config-text">No saved configurations yet. Save your setup to get started!</span>
+                            </div>
+                        </div>
+                    </div>
+                      <div class="mode-toggle">
+                         <h3 class="tooltip relative inline-block cursor-help">Tank Volume
+                             <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                 Enter desired volume or adjust dimensions. All values update in real-time.
+                                 <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                             </span>
+                         </h3>
+                         <div class="toggle-switch">
+                             <label class="checkbox-label tooltip relative inline-block cursor-help px-3 py-1.5 text-xs">
+                                 <input type="checkbox" id="fixedVolumeMode">
+                                 <span class="toggle-text">Adjust dimensions from volume</span>
+                                 <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                     When enabled, adjusting volume will automatically resize tank dimensions. When disabled, adjust dimensions directly.
+                                     <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                 </span>
+                             </label>
+                         </div>
+                         <div class="unit-controls flex gap-5 items-center">
+                             <div class="unit-selector flex items-center gap-2">
+                                 <label for="volumeUnit" class="tooltip relative inline-block cursor-help">Volume Units:
+                                     <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                         Display volume in US gallons (common in US) or liters (international standard).
+                                         <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                     </span>
+                                 </label>
+                                 <select id="volumeUnit">
+                                    <option value="gallons">Gallons</option>
+                                    <option value="gallons" selected>Gallons</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                      <div class="tank-presets mb-6 p-5 bg-gray-50 rounded-lg border border-gray-200">
+                          <h3 class="tooltip relative inline-block cursor-help text-gray-800 mb-4 text-base font-semibold">
+                              Tank Volume Presets
+                              <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                  Click any preset to instantly load common tank dimensions. Perfect for getting started or comparing different setups.
+                                  <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                              </span>
+                          </h3>
+                          <div class="preset-buttons grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2.5">
+                               <button class="preset-btn preset-btn-volume tooltip relative bg-warning text-white border-none py-2 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 text-center hover:-translate-y-px hover:shadow-lg hover:shadow-warning/30 active:translate-y-0" data-width="10" data-length="20" data-height="16" data-icon="💧" data-label-imp="10 gal" data-label-met="38 L">
+                                <span class="preset-label">
+                                    <span class="preset-icon">💧</span>
+                                    <span class="preset-label-text">10 gal</span>
+                                </span>
+                           </button>
+
+                           <div class="preset-group">
+                               <button class="preset-btn preset-btn-volume tooltip relative bg-warning text-white border-none py-2 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 text-center hover:-translate-y-px hover:shadow-lg hover:shadow-warning/30 active:translate-y-0" data-width="12" data-length="24" data-height="16" data-icon="💧" data-label-imp="20 gal" data-label-met="76 L">
+                               <span class="preset-label">
+                                   <span class="preset-icon">💧</span>
+                                   <span class="preset-label-text">20 gal</span>
+                               </span>
+                           </button>
+                       </div>
+
+                      <div class="dimension-finder-section mb-5 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                          <h3 class="tooltip relative inline-block cursor-help text-gray-800 mb-4 text-base font-semibold">
+                              Find Dimensions for Target Volume
+                              <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                  Find multiple dimension combinations that match your desired tank volume. Perfect for planning tank size based on available space.
+                                  <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                              </span>
+                          </h3>
+                          <div class="dimension-finder-controls flex gap-2.5 items-center mb-2.5">
+                              <label for="targetVolumeInput" class="result-label flex items-center gap-2 font-medium text-gray-600">
+                                  Target Volume:
+                                  <input type="number" id="targetVolumeInput" min="5" max="500" step="1" value="55" style="width: 100px;">
+                                  <span class="unit-display text-gray-500 text-sm" id="targetVolumeUnit">gal</span>
+                              </label>
+                              <button id="findDimensionsBtn" class="action-btn relative flex items-center gap-2 bg-primary text-white border-none py-2 px-3 rounded-md cursor-pointer text-xs font-medium transition-all duration-200 hover:-translate-y-px hover:shadow-lg active:translate-y-0">
+                                  <span class="action-icon">🔍</span>
+                                  <span class="action-text">Find Dimensions</span>
+                              </button>
+                          </div>
+                          <div class="dimension-results grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2.5" id="dimensionResults">
+                              <p class="col-span-full text-gray-400 italic text-xs p-2.5">Enter a target volume and click "Find Dimensions" to see options.</p>
+                          </div>
+                       </div>
+
+                      <div class="result-item volume-control py-3 border-b border-gray-200 last:border-b-0">
+                        <label for="volumeInput" class="result-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                            Volume:
+                            <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                Total internal volume of tank. Adjust to auto-update dimensions.
+                                <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                            </span>
+                        </label>
+                        <div class="slider-row flex items-center gap-2.5">
+                               <input type="range" id="volumeInput" min="5" max="200" step="0.1" value="120">
+                               <span class="value-display volume-value min-w-[60px] text-center font-bold text-primary text-lg bg-white py-1 px-2 rounded border border-gray-200" id="volumeValue">120</span>
+                               <span class="unit-display volume-unit text-gray-500 text-sm" id="volumeInputUnit">gal</span>
+                        </div>
+                    </div>
+                    <div class="result-item volume-control py-3 border-b border-gray-200 last:border-b-0">
+                        <label for="waterVolumeInput" class="result-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                            Water Volume:
+                            <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                Actual water volume after accounting for 10% displacement. Adjust to auto-update dimensions.
+                                <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                            </span>
+                        </label>
+                        <div class="slider-row flex items-center gap-2.5">
+                             <input type="range" id="waterVolumeInput" min="5" max="200" step="0.1" value="120">
+                             <span class="value-display volume-value min-w-[60px] text-center font-bold text-primary text-lg bg-white py-1 px-2 rounded border border-gray-200" id="waterVolumeValue">120</span>
+                             <span class="unit-display volume-unit text-gray-500 text-sm" id="waterVolumeInputUnit">gal</span>
+                         </div>
+                     </div>
+                     <div class="result-item py-3 border-b border-gray-200 last:border-b-0">
+                         <span class="result-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                             Surface Area (Top):
+                             <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                 Surface area of water surface (length × width). Critical for oxygen exchange - more area = more oxygen for fish.
+                                 <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                             </span>
+                         </span>
+                         <div class="flex items-center gap-2.5">
+                             <span class="result-value font-bold text-primary text-lg" id="surfaceAreaResult">--</span>
+                             <div class="surface-area-indicator flex items-center gap-2.5 mt-2.5 px-4 py-3 bg-gray-50 rounded-lg border-l-4 border-warning" id="surfaceAreaIndicator">
+                                 <span class="indicator-dot w-3 h-3 rounded-full bg-warning flex-shrink-0"></span>
+                                 <span class="surface-area-text text-sm text-gray-600 font-medium" id="surfaceAreaText">Calculating...</span>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="result-item py-3 border-b border-gray-200 last:border-b-0">
+                         <span class="result-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                             Water Weight:
+                             <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                 Estimated weight of water in your tank. Saltwater is denser than freshwater.
+                                 <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                             </span>
+                         </span>
+                         <div class="flex items-center gap-2">
+                             <span class="result-value font-bold text-primary text-lg" id="waterWeightResult">--</span>
+                             <select id="waterType" class="result-unit-select px-2 py-1.5 border-2 border-gray-200 rounded-md bg-gray-50 text-gray-600 text-sm font-medium cursor-pointer outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 min-w-auto">
+                                 <option value="freshwater">Freshwater</option>
+                                 <option value="saltwater">Saltwater</option>
+                             </select>
+                         </div>
+                     </div>
+                     <div class="result-item py-3 border-b border-gray-200 last:border-b-0">
+                         <span class="result-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                             Glass Thickness:
+                             <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                 Recommended glass thickness. Override if you have specific requirements.
+                                 <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                             </span>
+                         </span>
+                         <div class="flex items-center gap-2 flex-wrap">
+                             <div class="flex items-center gap-2">
+                                 <label class="checkbox-label relative inline-block px-2.5 py-1.5 text-xs">
+                                     <input type="checkbox" id="autoCalculateGlass" checked>
+                                     <span class="toggle-text">Auto-calculate</span>
+                                 </label>
+                             </div>
+                             <div id="glassThicknessManualControl" class="hidden">
+                                 <select id="glassThicknessSelect" class="result-unit-select px-2 py-1.5 border-2 border-gray-200 rounded-md bg-gray-50 text-gray-600 text-sm font-medium cursor-pointer outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 min-w-auto">
+                                     <option value="3">3mm</option>
+                                     <option value="5">5mm</option>
+                                     <option value="6">6mm</option>
+                                     <option value="8">8mm</option>
+                                     <option value="10">10mm</option>
+                                     <option value="12">12mm</option>
+                                     <option value="15">15mm</option>
+                                     <option value="19">19mm</option>
+                                 </select>
+                             </div>
+                             <span class="result-value font-bold text-primary text-lg ml-auto" id="glassResult">--</span>
+                         </div>
+                     </div>
+                    <div class="result-item py-3 border-b border-gray-200 last:border-b-0">
+                        <span class="result-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                            Glass Notes:
+                            <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                Additional safety considerations and recommendations for your specific tank setup.
+                                <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                            </span>
+                        </span>
+                        <span class="result-value result-notes !font-normal !text-gray-600 !text-sm !italic" id="glassNotes">--</span>
+                    </div>
+
+                     <div class="glass-panels-section">
+                         <h3 class="tooltip relative inline-block cursor-help text-gray-800 mb-5 text-xl font-semibold">
+                             Glass Panel Dimensions
+                             <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                 Dimensions, thickness, and weight for each glass panel. Useful for ordering custom cut glass or DIY tank building.
+                                 <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                             </span>
+                         </h3>
+                         <div class="glass-panels-grid grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4 mb-5" id="glassPanelsGrid">
+                             <div class="glass-panel-card bg-gray-50 border border-gray-200 rounded-lg p-4 transition-all duration-200 hover:border-primary hover:shadow-lg hover:shadow-primary/10" data-panel="front">
+                                 <h4 class="panel-name text-gray-800 m-0 mb-2.5 text-base font-semibold">Front</h4>
+                                 <div class="panel-dimensions flex flex-col gap-2 mb-3">
+                                     <span class="panel-size text-xl font-bold text-primary" id="frontPanelSize">--</span>
+                                     <span class="panel-thickness text-xs text-gray-600 font-medium" id="frontPanelThickness">--</span>
+                                 </div>
+                                 <div class="panel-details flex flex-col gap-1.5">
+                                     <div class="panel-detail flex justify-between items-center text-sm">
+                                         <span class="detail-label text-gray-600 font-medium">Area:</span>
+                                         <span class="detail-value text-primary font-semibold" id="frontPanelArea">--</span>
+                                     </div>
+                                     <div class="panel-detail flex justify-between items-center text-sm">
+                                         <span class="detail-label text-gray-600 font-medium">Weight:</span>
+                                         <span class="detail-value text-primary font-semibold" id="frontPanelWeight">--</span>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="glass-panel-card bg-gray-50 border border-gray-200 rounded-lg p-4 transition-all duration-200 hover:border-primary hover:shadow-lg hover:shadow-primary/10" data-panel="back">
+                                 <h4 class="panel-name text-gray-800 m-0 mb-2.5 text-base font-semibold">Back</h4>
+                                 <div class="panel-dimensions flex flex-col gap-2 mb-3">
+                                     <span class="panel-size text-xl font-bold text-primary" id="backPanelSize">--</span>
+                                     <span class="panel-thickness text-xs text-gray-600 font-medium" id="backPanelThickness">--</span>
+                                 </div>
+                                 <div class="panel-details flex flex-col gap-1.5">
+                                     <div class="panel-detail flex justify-between items-center text-sm">
+                                         <span class="detail-label text-gray-600 font-medium">Area:</span>
+                                         <span class="detail-value text-primary font-semibold" id="backPanelArea">--</span>
+                                     </div>
+                                     <div class="panel-detail flex justify-between items-center text-sm">
+                                         <span class="detail-label text-gray-600 font-medium">Weight:</span>
+                                         <span class="detail-value text-primary font-semibold" id="backPanelWeight">--</span>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="glass-panel-card bg-gray-50 border border-gray-200 rounded-lg p-4 transition-all duration-200 hover:border-primary hover:shadow-lg hover:shadow-primary/10" data-panel="left">
+                                 <h4 class="panel-name text-gray-800 m-0 mb-2.5 text-base font-semibold">Left Side</h4>
+                                 <div class="panel-dimensions flex flex-col gap-2 mb-3">
+                                     <span class="panel-size text-xl font-bold text-primary" id="leftPanelSize">--</span>
+                                     <span class="panel-thickness text-xs text-gray-600 font-medium" id="leftPanelThickness">--</span>
+                                 </div>
+                                 <div class="panel-details flex flex-col gap-1.5">
+                                     <div class="panel-detail flex justify-between items-center text-sm">
+                                         <span class="detail-label text-gray-600 font-medium">Area:</span>
+                                         <span class="detail-value text-primary font-semibold" id="leftPanelArea">--</span>
+                                     </div>
+                                     <div class="panel-detail flex justify-between items-center text-sm">
+                                         <span class="detail-label text-gray-600 font-medium">Weight:</span>
+                                         <span class="detail-value text-primary font-semibold" id="leftPanelWeight">--</span>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="glass-panel-card bg-gray-50 border border-gray-200 rounded-lg p-4 transition-all duration-200 hover:border-primary hover:shadow-lg hover:shadow-primary/10" data-panel="right">
+                                 <h4 class="panel-name text-gray-800 m-0 mb-2.5 text-base font-semibold">Right Side</h4>
+                                 <div class="panel-dimensions flex flex-col gap-2 mb-3">
+                                     <span class="panel-size text-xl font-bold text-primary" id="rightPanelSize">--</span>
+                                     <span class="panel-thickness text-xs text-gray-600 font-medium" id="rightPanelThickness">--</span>
+                                 </div>
+                                 <div class="panel-details flex flex-col gap-1.5">
+                                     <div class="panel-detail flex justify-between items-center text-sm">
+                                         <span class="detail-label text-gray-600 font-medium">Area:</span>
+                                         <span class="detail-value text-primary font-semibold" id="rightPanelArea">--</span>
+                                     </div>
+                                     <div class="panel-detail flex justify-between items-center text-sm">
+                                         <span class="detail-label text-gray-600 font-medium">Weight:</span>
+                                         <span class="detail-value text-primary font-semibold" id="rightPanelWeight">--</span>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="glass-panel-card panel-bottom col-span-full bg-gradient-to-br from-green-50 to-green-100 border border-gray-200 rounded-lg p-4" data-panel="bottom">
+                                 <h4 class="panel-name text-gray-800 m-0 mb-2.5 text-base font-semibold">Bottom</h4>
+                                 <div class="panel-dimensions flex flex-col gap-2 mb-3">
+                                     <span class="panel-size text-xl font-bold text-primary" id="bottomPanelSize">--</span>
+                                     <span class="panel-thickness text-xs text-gray-600 font-medium" id="bottomPanelThickness">--</span>
+                                 </div>
+                                 <div class="panel-details flex flex-col gap-1.5">
+                                     <div class="panel-detail flex justify-between items-center text-sm">
+                                         <span class="detail-label text-gray-600 font-medium">Area:</span>
+                                         <span class="detail-value text-primary font-semibold" id="bottomPanelArea">--</span>
+                                     </div>
+                                     <div class="panel-detail flex justify-between items-center text-sm">
+                                         <span class="detail-label text-gray-600 font-medium">Weight:</span>
+                                         <span class="detail-value text-primary font-semibold" id="bottomPanelWeight">--</span>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="total-glass-weight flex justify-between items-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg border-2 border-success font-semibold">
+                             <span class="total-label text-success">Total Glass Weight:</span>
+                             <span class="total-value text-success text-xl" id="totalGlassWeight">--</span>
+                         </div>
+                     </div>
+
+                     <div class="weight-distribution-section mt-6 border-t-2 border-gray-200 pt-5">
+                         <h3 class="tooltip relative inline-block cursor-help text-gray-800 mb-5 text-xl font-semibold">
+                             Weight Distribution
+                             <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                 Calculate how much weight each support point needs to bear. Critical for stand design and floor safety.
+                                 <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                             </span>
+                         </h3>
+                         <div class="weight-controls mb-5">
+                             <label class="tooltip relative inline-block cursor-help">
+                                 <span class="control-label block mb-2 font-medium text-gray-600">Support Points:</span>
+                                 <select id="supportPoints" class="result-unit-select px-2 py-1.5 border-2 border-gray-200 rounded-md bg-gray-50 text-gray-600 text-sm font-medium cursor-pointer outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 min-w-[80px]">
+                                     <option value="4">4 Points (Corners)</option>
+                                     <option value="6">6 Points (Corners + Center)</option>
+                                     <option value="8">8 Points (Corners + Center Front/Back + Center Left/Right)</option>
+                                 </select>
+                                 <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                     Choose your stand configuration to see weight per support point.
+                                     <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                 </span>
+                             </label>
+                         </div>
+                         <div class="weight-distribution-grid grid grid-cols-2 gap-4 mb-5">
+                             <div class="weight-card bg-gray-50 border border-gray-200 rounded-lg p-5 text-center transition-all duration-200">
+                                 <span class="weight-label block mb-2.5 text-gray-600 font-medium">Total Weight</span>
+                                 <span class="weight-value block text-[1.8rem] font-bold text-primary mb-1.5" id="totalWeight">--</span>
+                             </div>
+                             <div class="weight-card highlight bg-gradient-to-br from-yellow-50 to-yellow-100 border border-warning rounded-lg p-5 text-center col-span-full transition-all duration-200">
+                                 <span class="weight-label block mb-2.5 text-gray-600 font-medium">Per Support Point</span>
+                                 <span class="weight-value block text-[1.8rem] font-bold text-warning mb-1.5" id="weightPerPoint">--</span>
+                                 <span class="weight-configuration block mt-1.5 text-xs text-gray-600 italic" id="supportConfiguration">4 Corners</span>
+                             </div>
+                             <div class="weight-breakdown bg-white border border-gray-200 rounded-lg p-4 col-span-full">
+                                 <h4 class="text-gray-800 m-0 mb-2.5 text-base font-semibold">Weight Breakdown</h4>
+                                 <div class="breakdown-item flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                                     <span class="breakdown-label text-gray-600 font-medium">Water:</span>
+                                     <span class="breakdown-value text-primary font-semibold" id="waterWeightBreakdown">--</span>
+                                 </div>
+                                 <div class="breakdown-item flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                                     <span class="breakdown-label text-gray-600 font-medium">Glass:</span>
+                                     <span class="breakdown-value text-primary font-semibold" id="glassWeightBreakdown">--</span>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="support-recommendations" id="supportRecommendations">
+                         </div>
+                     </div>
+
+                     <div class="placement-guide-section mt-6 border-t-2 border-gray-200 pt-5">
+                         <h3 class="tooltip relative inline-block cursor-help text-gray-800 mb-5 text-xl font-semibold">
+                             Tank Placement Guide
+                             <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                 Recommendations for optimal tank placement based on tank size and weight.
+                                 <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                             </span>
+                         </h3>
+                         <div class="placement-cards grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 mb-5" id="placementCards">
+                             <div class="placement-card bg-white border border-gray-200 rounded-lg p-5 text-center transition-all duration-200 hover:border-primary hover:shadow-lg hover:shadow-primary/15 hover:-translate-y-0.5">
+                                 <span class="placement-icon block text-4xl mb-2.5">🏠</span>
+                                 <h4 class="placement-title text-gray-800 m-0 mb-2.5 text-base font-semibold">Room Type</h4>
+                                 <p class="placement-text text-gray-600 m-0 text-xs leading-relaxed" id="roomTypeRecommendation">Loading...</p>
+                             </div>
+                             <div class="placement-card bg-white border border-gray-200 rounded-lg p-5 text-center transition-all duration-200 hover:border-primary hover:shadow-lg hover:shadow-primary/15 hover:-translate-y-0.5">
+                                 <span class="placement-icon block text-4xl mb-2.5">🛋️</span>
+                                 <h4 class="placement-title text-gray-800 m-0 mb-2.5 text-base font-semibold">Location</h4>
+                                 <p class="placement-text text-gray-600 m-0 text-xs leading-relaxed" id="locationRecommendation">Loading...</p>
+                             </div>
+                             <div class="placement-card bg-white border border-gray-200 rounded-lg p-5 text-center transition-all duration-200 hover:border-primary hover:shadow-lg hover:shadow-primary/15 hover:-translate-y-0.5">
+                                 <span class="placement-icon block text-4xl mb-2.5">⚡</span>
+                                 <h4 class="placement-title text-gray-800 m-0 mb-2.5 text-base font-semibold">Power Requirements</h4>
+                                 <p class="placement-text text-gray-600 m-0 text-xs leading-relaxed" id="powerRecommendation">Loading...</p>
+                             </div>
+                             <div class="placement-card bg-white border border-gray-200 rounded-lg p-5 text-center transition-all duration-200 hover:border-primary hover:shadow-lg hover:shadow-primary/15 hover:-translate-y-0.5">
+                                 <span class="placement-icon block text-4xl mb-2.5">☀️</span>
+                                 <h4 class="placement-title text-gray-800 m-0 mb-2.5 text-base font-semibold">Lighting</h4>
+                                 <p class="placement-text text-gray-600 m-0 text-xs leading-relaxed" id="lightingRecommendation">Loading...</p>
+                             </div>
+                             <div class="placement-card bg-white border border-gray-200 rounded-lg p-5 text-center transition-all duration-200 hover:border-primary hover:shadow-lg hover:shadow-primary/15 hover:-translate-y-0.5">
+                                 <span class="placement-icon block text-4xl mb-2.5">🚪</span>
+                                 <h4 class="placement-title text-gray-800 m-0 mb-2.5 text-base font-semibold">Access</h4>
+                                 <p class="placement-text text-gray-600 m-0 text-xs leading-relaxed" id="accessRecommendation">Loading...</p>
+                             </div>
+                             <div class="placement-card bg-white border border-gray-200 rounded-lg p-5 text-center transition-all duration-200 hover:border-primary hover:shadow-lg hover:shadow-primary/15 hover:-translate-y-0.5">
+                                 <span class="placement-icon block text-4xl mb-2.5">📐</span>
+                                 <h4 class="placement-title text-gray-800 m-0 mb-2.5 text-base font-semibold">Spacing</h4>
+                                 <p class="placement-text text-gray-600 m-0 text-xs leading-relaxed" id="spacingRecommendation">Loading...</p>
+                             </div>
+                         </div>
+                         <div class="placement-tips bg-gray-50 border-l-4 border-primary p-4 rounded" id="placementTips">
+                         </div>
+                     </div>
+
+                     <div class="equipment-section">
+                         <h3 class="tooltip relative inline-block cursor-help text-gray-800 mb-5 text-xl font-semibold border-t-2 border-gray-200 pt-5 mt-6">
+                             Recommended Equipment
+                             <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                 Essential equipment suggestions based on your tank size. These are starting recommendations - consult local experts for your specific needs.
+                                 <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                             </span>
+                         </h3>
+
+                         <div class="equipment-group mb-6 border border-gray-200 rounded-lg overflow-hidden">
+                             <h4 class="group-title bg-gray-50 text-gray-800 m-0 px-4 py-3 text-base font-semibold border-b border-gray-200 bg-gradient-to-br from-green-50 to-green-100 text-success">Essential Equipment</h4>
+                             <div class="equipment-item px-4 py-2.5 border-b border-black/5 bg-white/50 last:border-b-0">
+                                 <span class="equipment-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                                     Filter:
+                                     <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                         Removes waste and provides water circulation. GPH rating should be 3-5 times tank volume per hour.
+                                         <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                     </span>
+                                 </span>
+                                 <span class="equipment-value font-bold text-primary text-lg" id="filterRecommendation">--</span>
+                             </div>
+                             <div class="equipment-item px-4 py-2.5 border-b border-black/5 bg-white/50 last:border-b-0">
+                                 <span class="equipment-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                                     Heater:
+                                     <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                         Maintains stable water temperature. 3-5 watts per gallon is typical for tropical fish.
+                                         <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                     </span>
+                                 </span>
+                                 <span class="equipment-value font-bold text-primary text-lg" id="heaterRecommendation">--</span>
+                             </div>
+                             <div class="equipment-item px-4 py-2.5 border-b border-black/5 bg-white/50 last:border-b-0">
+                                 <span class="equipment-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                                     Air Pump:
+                                     <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                         Provides oxygen exchange and surface agitation. Essential for fish health and gas exchange.
+                                         <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                     </span>
+                                 </span>
+                                 <span class="equipment-value font-bold text-primary text-lg" id="airPumpRecommendation">--</span>
+                             </div>
+                             <div class="equipment-item px-4 py-2.5 border-b border-black/5 bg-white/50 last:border-b-0">
+                                 <span class="equipment-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                                     Thermometer:
+                                     <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                         Monitors water temperature for stability. Critical when using heaters or in warm environments.
+                                         <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                     </span>
+                                 </span>
+                                 <span class="equipment-value font-bold text-primary text-lg" id="thermometerRecommendation">--</span>
+                             </div>
+                             <div class="equipment-item px-4 py-2.5 border-b border-black/5 bg-white/50 last:border-b-0">
+                                 <span class="equipment-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                                     Circulation Pump:
+                                     <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                         Creates water movement and eliminates dead spots. Essential for water quality and fish health.
+                                         <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                     </span>
+                                 </span>
+                                 <span class="equipment-value font-bold text-primary text-lg" id="circulationPumpRecommendation">--</span>
+                             </div>
+                         </div>
+
+                         <div class="equipment-group mb-6 border border-gray-200 rounded-lg overflow-hidden">
+                             <h4 class="group-title bg-gray-50 text-gray-800 m-0 px-4 py-3 text-base font-semibold border-b border-gray-200 bg-gradient-to-br from-yellow-50 to-yellow-100 text-warning">Advanced Equipment</h4>
+                             <div class="equipment-item px-4 py-2.5 border-b border-black/5 bg-white/50 last:border-b-0">
+                                 <span class="equipment-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                                     UV Sterilizer:
+                                     <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                         Controls algae and bacteria in water column. UV wattage should match filter flow rate (1W per 100 GPH).
+                                         <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                     </span>
+                                 </span>
+                                 <span class="equipment-value font-bold text-primary text-lg" id="uvSterilizerRecommendation">--</span>
+                             </div>
+                             <div class="equipment-item px-4 py-2.5 border-b border-black/5 bg-white/50 last:border-b-0">
+                                 <span class="equipment-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                                     Water Chiller:
+                                     <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                         Critical in warm climates for temperature-sensitive fish. Prevents overheating and maintains stable conditions.
+                                         <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                     </span>
+                                 </span>
+                                 <span class="equipment-value font-bold text-primary text-lg" id="chillerRecommendation">--</span>
+                             </div>
+                             <div class="equipment-item px-4 py-2.5 border-b border-black/5 bg-white/50 last:border-b-0">
+                                 <span class="equipment-label tooltip relative inline-block cursor-help font-medium text-gray-600 block">
+                                     Auto Top-Off:
+                                     <span class="tooltip-text invisible w-48 bg-gray-800 text-white text-center rounded-md px-3 py-2 absolute z-50 bottom-[125%] left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-300 text-xs leading-relaxed pointer-events-none">
+                                         Maintains stable water levels automatically. Prevents low water emergencies.
+                                         <span class="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-solid border-gray-800 border-t-transparent border-x-transparent border-b-transparent"></span>
+                                     </span>
+                                 </span>
+                                 <span class="equipment-value font-bold text-primary text-lg" id="atoRecommendation">--</span>
+                             </div>
+                         </div>
+                     </div>
+                    </div>
+               </div>
+            </div>
+
+
+              </div>
+        </div>
+    </div>
+
+    <input type="file" id="importConfigFile" accept=".json" style="display: none;">
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/micromodal@0.4.10/dist/micromodal.min.js"></script>
+    <!-- Load Math.js from CDN for advanced mathematical operations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.3/math.min.js" integrity="sha512-oaXSUZ+SIP5lw+LnNvGzH0KJLEBQZOvJwpIG9y+yZpzGFMQw1T4NrXkWWQdWTD+BQxD3Etqu3JO+zBOGPVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script type="module" src="js/app.js"></script>
+</body>

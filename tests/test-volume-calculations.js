@@ -1,5 +1,5 @@
 // Volume Calculations Test Suite (ES6 Modules)
-import { TankCalculator } from '../app/js/tank-calculator.js';
+import { TankCalculator } from '../app/src/domain/calculations/TankCalculator.js';
 import { GlassRecommender } from '../app/js/glass-recommendations.js';
 import { GlassPanelCalculator, WeightDistributionCalculator } from '../app/js/glass-panel-calculator.js';
 import { EquipmentRecommender } from '../app/js/equipment-recommendations.js';

@@ -1,0 +1,61 @@
+{
+  "support_configurations": {
+    "4": {
+      "name": "4 Corners",
+      "description": "Standard cabinet or metal stand with 4 corner supports",
+      "points": 4
+    },
+    "6": {
+      "name": "6 Points",
+      "description": "4 corners + 2 center supports front/back",
+      "points": 6
+    },
+    "8": {
+      "name": "8 Points",
+      "description": "4 corners + 2 center front/back + 2 center left/right",
+      "points": 8
+    }
+  },
+  "support_recommendations": [
+    {
+      "maxWeight": 200,
+      "type": "info",
+      "message": "A basic cabinet or metal stand with 4 corner supports is adequate"
+    },
+    {
+      "minWeight": 200,
+      "maxWeight": 500,
+      "type": "info",
+      "message": "Use a sturdy stand rated for at least {{weight}} lbs"
+    },
+    {
+      "minWeight": 200,
+      "maxWeight": 500,
+      "condition": "length > 48 || width > 24",
+      "type": "warning",
+      "message": "Consider center support for longer spans"
+    },
+    {
+      "minWeight": 500,
+      "type": "info",
+      "message": "Use a heavy-duty stand rated for at least {{weight}} lbs"
+    },
+    {
+      "minWeight": 500,
+      "condition": "length > 48",
+      "type": "warning",
+      "message": "Add center supports along the length"
+    },
+    {
+      "minWeight": 500,
+      "condition": "width > 30",
+      "type": "warning",
+      "message": "Add center supports along the width"
+    },
+    {
+      "minWeight": 500,
+      "type": "warning",
+      "message": "Ensure floor can support the total weight (approximately {{weight}} kg)"
+    }
+  ]
+}

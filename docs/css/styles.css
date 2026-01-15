@@ -1,0 +1,4 @@
+/* Main stylesheet - now using Tailwind CSS */
+
+/* Import Tailwind custom CSS for styles not handled by Tailwind utilities */
+@import url('./tailwind-custom.css');

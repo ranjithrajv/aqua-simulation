@@ -1,0 +1,71 @@
+@media (max-width: 480px) {
+    header {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .input-header {
+        gap: 10px;
+    }
+
+    .control-group {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .dimension-label {
+        min-width: 70px;
+        font-size: 0.9rem;
+    }
+
+    .value-display {
+        min-width: 40px;
+        font-size: 1rem;
+    }
+
+    .unit-display {
+        font-size: 0.85rem;
+        min-width: 20px;
+    }
+
+    .tooltip .tooltip-text {
+        width: 180px;
+        margin-left: -90px;
+        font-size: 0.8rem;
+    }
+
+    .toggle-switch {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .checkbox-label {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .surface-area-indicator {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .equipment-group {
+        margin-bottom: 20px;
+    }
+
+    .group-title {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+
+    .equipment-group .equipment-item {
+        padding: 8px 12px;
+    }
+}

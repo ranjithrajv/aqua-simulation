@@ -1,0 +1,103 @@
+/* Print-friendly styles */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .container {
+        box-shadow: none;
+        max-width: 100%;
+    }
+
+    header {
+        background: white;
+        color: black;
+        border-bottom: 2px solid #333;
+        padding: 20px;
+    }
+
+    header h1 {
+        color: black;
+    }
+
+    header p {
+        color: #333;
+    }
+
+    .action-bar,
+    .saved-configs-section,
+    .visualization-section,
+    .view-controls,
+    .floating-controls {
+        display: none;
+    }
+
+    .main-content {
+        page-break-inside: avoid;
+    }
+
+    .top-section {
+        display: block;
+    }
+
+    .input-section,
+    .results-section {
+        page-break-inside: avoid;
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ccc;
+    }
+
+    .tank-presets,
+    .preset-buttons,
+    .preset-btn,
+    .tooltip {
+        display: none;
+    }
+
+    .result-item,
+    .equipment-item,
+    .glass-panel-card,
+    .placement-card,
+    .weight-card,
+    .breakdown-item {
+        break-inside: avoid;
+    }
+
+    .glass-panels-grid,
+    .placement-cards,
+    .weight-distribution-grid {
+        page-break-inside: avoid;
+    }
+
+    .glass-panel-card.panel-bottom {
+        break-inside: avoid;
+    }
+
+    h1, h2, h3, h4 {
+        color: black !important;
+    }
+
+    .result-value,
+    .equipment-value,
+    .panel-thickness,
+    .weight-value {
+        color: #0066cc !important;
+        font-weight: bold;
+    }
+
+    .surface-area-indicator {
+        background: #f0f0f0 !important;
+        border-color: #333 !important;
+    }
+
+    .indicator-dot,
+    .surface-area-text {
+        color: #333 !important;
+    }
+
+    .action-btn {
+        display: none;
+    }
+}

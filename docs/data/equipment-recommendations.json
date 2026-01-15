@@ -1,0 +1,52 @@
+{
+  "filter": [
+    { "maxVolume": 20, "recommendation": "10-20 GPH canister or small HOB filter" },
+    { "maxVolume": 40, "recommendation": "20-40 GPH canister or medium HOB filter" },
+    { "maxVolume": 75, "recommendation": "40-75 GPH canister filter" },
+    { "maxVolume": 125, "recommendation": "75-125 GPH canister filter" },
+    { "maxVolume": 200, "recommendation": "125-200 GPH canister filter" },
+    { "maxVolume": null, "recommendation": "200+ GPH canister filter or sump system" }
+  ],
+  "heater": [
+    { "maxVolume": 10, "recommendation": "50-100W submersible heater" },
+    { "maxVolume": 20, "recommendation": "100-150W submersible heater" },
+    { "maxVolume": 40, "recommendation": "150-200W submersible heater" },
+    { "maxVolume": 75, "recommendation": "200-300W submersible heater" },
+    { "maxVolume": 125, "recommendation": "300-400W submersible heater" },
+    { "maxVolume": 200, "recommendation": "400-600W submersible heater" },
+    { "maxVolume": null, "recommendation": "600W+ submersible or inline heater" }
+  ],
+  "chiller": [
+    { "maxVolume": 20, "recommendation": "1/10 HP chiller for small tanks in warm climates" },
+    { "maxVolume": 75, "recommendation": "1/4 HP chiller for medium tanks" },
+    { "maxVolume": 125, "recommendation": "1/3 HP chiller for large tanks" },
+    { "maxVolume": null, "recommendation": "1/2 to 1 HP chiller for very large tanks" }
+  ],
+  "uvSterilizer": [
+    { "maxFlow": 100, "recommendation": "5-9W UV sterilizer" },
+    { "maxFlow": 200, "recommendation": "11-18W UV sterilizer" },
+    { "maxFlow": 400, "recommendation": "25-36W UV sterilizer" },
+    { "maxFlow": null, "recommendation": "55W+ UV sterilizer or multiple units" }
+  ],
+  "airPump": [
+    { "maxArea": 2, "recommendation": "10-30 GPH air pump with single airstone" },
+    { "maxArea": 4, "recommendation": "30-60 GPH air pump with dual airstones" },
+    { "maxArea": null, "recommendation": "60-100 GPH air pump with manifold system" }
+  ],
+  "thermometer": [
+    { "maxVolume": 20, "recommendation": "Digital stick thermometer" },
+    { "maxVolume": 75, "recommendation": "Digital thermometer with external probe" },
+    { "maxVolume": null, "recommendation": "Digital thermometer with multiple probes" }
+  ],
+  "circulationPump": [
+    { "maxVolume": 20, "recommendation": "200-400 GPH powerhead" },
+    { "maxVolume": 55, "recommendation": "400-800 GPH powerhead" },
+    { "maxVolume": 75, "recommendation": "800-1200 GPH powerhead or multiple units" },
+    { "maxVolume": null, "recommendation": "1200+ GPH powerhead or multiple units" }
+  ],
+  "ato": [
+    { "maxArea": 2, "recommendation": "1-2 gallon reservoir with small pump" },
+    { "maxArea": 4, "recommendation": "2-5 gallon reservoir with medium pump" },
+    { "maxArea": null, "recommendation": "5+ gallon reservoir with large pump" }
+  ]
+}

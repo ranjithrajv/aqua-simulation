@@ -1,0 +1,155 @@
+/* Privacy Modal */
+.privacy-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.privacy-modal {
+    background: white;
+    border-radius: 12px;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.privacy-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background: linear-gradient(135deg, var(--primary) 0%, #764ba2 100%);
+    color: white;
+}
+
+.privacy-modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.privacy-modal-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    line-height: 1;
+}
+
+.privacy-modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.privacy-modal-content {
+    padding: 25px;
+    overflow-y: auto;
+    max-height: calc(80vh - 120px);
+}
+
+.privacy-modal-content h3 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    margin: 20px 0 10px 0;
+    font-weight: 600;
+}
+
+.privacy-modal-content h3:first-child {
+    margin-top: 0;
+}
+
+.privacy-modal-content p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.privacy-modal-content ul {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 15px;
+    padding-left: 20px;
+}
+
+.privacy-modal-content li {
+    margin-bottom: 6px;
+}
+
+.privacy-modal-content strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.privacy-modal-footer {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+}
+
+.last-updated {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .privacy-modal {
+        max-width: 90%;
+        max-height: 85vh;
+    }
+
+    .privacy-modal-header {
+        padding: 15px 20px;
+    }
+
+    .privacy-modal-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .privacy-modal-content {
+        padding: 20px;
+        max-height: calc(85vh - 100px);
+    }
+
+    .privacy-modal-content h3 {
+        font-size: 1.1rem;
+    }
+}

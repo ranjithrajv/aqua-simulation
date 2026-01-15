@@ -95,26 +95,33 @@ Before you begin, ensure you have the following installed:
 ## 📁 Project Structure
 
 ```
-aquarium-simulator/
+aquarium-simulation/
 ├── app/                    # Main application
 │   ├── index.html         # Main HTML file
-│   ├── css/
-│   │   └── styles.css     # Application styles
-│   └── js/
-│       ├── app.js         # Main application logic
-│       ├── constants.js   # Application constants
-│       ├── dom-helper.js  # DOM manipulation utilities
-│       ├── tank-calculator.js     # Volume calculations
-│       ├── glass-recommendations.js # Glass thickness logic
-│       ├── equipment-recommendations.js # Equipment suggestions
-│       ├── equipment-strategy.js   # Strategy pattern for equipment
-│       └── tank-visualizer.js      # 3D visualization
+│   ├── css/               # Stylesheets
+│   │   └── tailwind-custom.css  # Custom Tailwind styles
+│   ├── data/              # JSON configuration files
+│   ├── js/                # JavaScript source files
+│   │   ├── app.js         # Main application logic
+│   │   ├── utils/         # Utility functions
+│   │   └── *.js           # Other JS modules
+│   ├── src/               # Source code modules
+│   │   ├── config/        # Configuration files
+│   │   ├── core/          # Core application logic
+│   │   ├── domain/        # Domain-specific logic
+│   │   ├── services/      # Business services
+│   │   ├── ui/            # UI components
+│   │   └── utils/         # Utility functions
+│   └── public/            # Public assets
+│       └── index.html     # Main entry point
 ├── tests/                  # Testing infrastructure
 │   ├── validate.js         # Comprehensive validation
 │   ├── test-calculations.js # Unit tests
+│   ├── test-volume-calculations.js # Volume-specific tests
 │   ├── test.html          # Integration tests
 │   ├── test-controls.html # UI control tests
 │   └── README.md          # Test documentation
+├── package.json           # Project dependencies and scripts
 ├── README.md              # Project documentation
 └── CONTRIBUTING.md        # This file
 ```
@@ -188,6 +195,32 @@ git commit -m "feat!: redesign equipment recommendation API"
 4. **Include screenshots** for UI changes
 5. **Test thoroughly** before submitting
 6. **Keep PRs focused** - one feature or fix per PR
+
+### Security Guidelines
+
+As this project handles user input and generates dynamic content, please follow these security best practices:
+
+#### Input Validation and Sanitization
+- **Validate all user inputs** before processing or storing
+- **Sanitize configuration names** and other user-provided strings
+- **Implement length limits** on input fields to prevent abuse
+- **Escape HTML content** when inserting into the DOM using proper methods (prefer `textContent` over `innerHTML` when possible)
+
+#### Content Security Policy (CSP)
+- **Respect existing CSP headers** defined in `app/index.html`
+- **Avoid inline scripts/styles** when possible to maintain strict CSP compliance
+- **Use external scripts only from trusted sources**
+
+#### XSS Prevention
+- **Always escape dynamic content** before inserting into HTML
+- **Use the `escapeHtml` utility function** for any user-generated content
+- **Be cautious with `innerHTML` assignments** - ensure content is properly sanitized
+
+#### Code Review
+- **Security aspects will be reviewed** during pull request reviews
+- **Report security vulnerabilities** through appropriate channels rather than public issues
+
+For more details on security implementation, see the `SECURITY.md` file in the project root.
 
 ## 🧪 Testing
 

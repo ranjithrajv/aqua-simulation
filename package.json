@@ -9,16 +9,20 @@
     "lint": "eslint app/js/**/*.js",
     "lint:fix": "eslint app/js/**/*.js --fix",
     "format": "prettier --write .",
-    "install-deps": "npm install d3 date-fns lodash mathjs"
+    "install-deps": "npm install d3 date-fns lodash mathjs",
+    "build-docs": "node build-docs.js",
+    "gh-pages": "npm run build-docs && npx gh-pages -d docs -b gh-pages"
   },
   "dependencies": {
     "d3": "^7.8.5",
     "date-fns": "^3.0.0",
+    "fs-extra": "^11.3.3",
     "lodash": "^4.17.21",
     "mathjs": "^12.0.0"
   },
   "devDependencies": {
     "eslint": "^8.0.0",
+    "gh-pages": "^6.3.0",
     "prettier": "^2.0.0"
   }
 }

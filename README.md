@@ -1,5 +1,7 @@
 # Aquarium Tank Simulator 🐠
 
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+
 A comprehensive web-based platform for aquarium enthusiasts of all levels - from beginners planning their first tank to experts calculating precise specifications. This simulator provides accurate calculations, smart recommendations, and detailed specifications for building custom aquarium tanks.
 
 ## Features
@@ -32,6 +34,23 @@ A comprehensive web-based platform for aquarium enthusiasts of all levels - from
 - **Export Summary**: Generate a downloadable image with all specifications
 - **Privacy First**: All data stored locally in your browser - no tracking or data collection
 
+## Enhanced Features
+
+### 1. Advanced Data Visualizations
+- **Volume Comparison Charts**: Bar charts showing geometric vs. actual water volumes
+- **Weight Distribution Charts**: Pie charts showing water vs. glass weight distribution
+- **Glass Thickness Visualization**: Line charts showing recommended thickness for each panel
+
+### 2. Improved Data Manipulation
+- **Lodash Integration**: Enhanced array/object manipulation capabilities
+- **Debounced Functions**: Better performance for frequently called functions
+- **Deep Cloning**: Safe copying of complex objects
+
+### 3. Enhanced Date Handling
+- **date-fns Integration**: Robust date formatting and manipulation utilities
+- **Validation Functions**: Past/future date validation
+- **Duration Calculations**: Days between dates, etc.
+
 ## Usage
 
 1. Choose your preferred units for dimensions (Inches or Centimeters)
@@ -48,10 +67,26 @@ A comprehensive web-based platform for aquarium enthusiasts of all levels - from
 - **Architecture**: Modular design with separation of concerns (calculator, recommender, DOM helper, utilities)
 - **Data Storage**: localStorage for saved configurations (fully private, no server transmission)
 - **Calculations**: Custom algorithms for volume, glass thickness, and equipment recommendations
-- **Enhanced Visualizations**: Advanced data visualizations using D3.js for volume, weight, and glass thickness
 - **Performance Optimizations**: Utilizes Lodash for efficient data manipulation and function debouncing
 - **Improved Date Handling**: Enhanced date processing with date-fns library
 - **No Build Tools**: Pure JavaScript - no compilation or bundling required
+
+## External Libraries Used
+
+### 1. D3.js (v7.x)
+- **Purpose**: Advanced data visualizations
+- **Features**: Interactive bar, pie, and line charts
+- **Benefits**: Highly customizable and powerful visualization engine
+
+### 2. date-fns (v3.x)
+- **Purpose**: Date manipulation and formatting
+- **Features**: Date formatting, validation, and calculation utilities
+- **Benefits**: Lightweight and modular date library
+
+### 3. Lodash (v4.x)
+- **Purpose**: Utility functions for common programming tasks
+- **Features**: Array manipulation, object cloning, function debouncing
+- **Benefits**: Performance optimizations and code simplification
 
 ## File Structure
 
@@ -60,7 +95,10 @@ aquarium-simulation/
 ├── app/
 │   ├── index.html              # Main HTML page
 │   ├── css/
-│   │   └── styles.css          # Complete styling with responsive design
+│   │   ├── modules/            # Modular CSS files
+│   │   ├── styles.css          # Complete styling with responsive design
+│   │   └── tailwind-custom.css # Custom styles
+│   ├── data/                   # JSON configuration files
 │   ├── js/
 │   │   ├── app.js              # Main application orchestration
 │   │   ├── tank-calculator.js  # Volume and weight calculations
@@ -73,14 +111,21 @@ aquarium-simulation/
 │   │   ├── constants.js        # Configuration and conversion factors
 │   │   ├── dom-helper.js      # DOM manipulation utilities
 │   │   ├── utils.js           # Utility functions
-│   │   └── logger.js          # Production logging system
-│   └── data/
-│       ├── constants.json      # Configuration data
-│       ├── glass-thickness-recommendations.json
-│       ├── equipment-recommendations.json
-│       ├── placement-guidelines.json
-│       ├── weight-distribution-configs.json
-│       └── test-cases.json    # Test data for validation
+│   │   ├── logger.js          # Production logging system
+│   │   └── utils/
+│   │       ├── charts.js      # D3 chart utilities
+│   │       ├── date-utils.js  # date-fns utilities
+│   │       └── lodash-utils.js # Lodash utilities
+│   ├── src/
+│   │   ├── config/             # Configuration files
+│   │   ├── core/               # Core application logic
+│   │   ├── domain/             # Domain-specific logic
+│   │   ├── services/           # Business services
+│   │   ├── ui/                 # UI components
+│   │   └── utils/              # Utility functions
+│   └── public/
+│       └── index.html          # Main entry point
+├── tests/                      # Testing infrastructure
 ├── package.json
 ├── README.md
 └── CHANGELOG.md
@@ -106,6 +151,20 @@ aquarium-simulation/
 - Responsive design works on mobile and tablet devices
 - No external dependencies required
 
+## Setup
+
+### Install Dependencies
+```bash
+npm install
+```
+
+### Available Scripts
+- `npm start` - Start the development server
+- `npm test` - Run the test suite
+- `npm run lint` - Check for linting issues
+- `npm run lint:fix` - Automatically fix linting issues
+- `npm run format` - Format all files
+
 ## Development
 
 The project uses vanilla JavaScript with ES6 modules following SOLID principles:
@@ -115,12 +174,58 @@ The project uses vanilla JavaScript with ES6 modules following SOLID principles:
 - **Data-driven**: Configuration externalized to JSON files
 - **Privacy-first**: All data storage is local to the user's browser
 
+### Key Improvements
+
+#### 1. Performance Enhancements
+- Function debouncing to prevent excessive recalculations
+- Efficient data processing with Lodash utilities
+- Optimized chart rendering
+
+#### 2. Security Improvements
+- Input sanitization and validation
+- Content Security Policy implementation
+- XSS prevention measures
+
+#### 3. Code Quality
+- Modular CSS architecture
+- Consistent code formatting with Prettier
+- Linting rules enforcement
+
+### Adding New Visualizations
+1. Create a new chart function in `app/js/utils/charts.js`
+2. Call the function from the `updateVisualizations` method in `app.js`
+3. Ensure proper error handling and data validation
+
 ## Testing
 
 Run the test suite:
 ```bash
 npm test
 ```
+
+## GitHub Pages Deployment
+
+To deploy this application to GitHub Pages:
+
+1. **Build the documentation**:
+   ```bash
+   npm run build-docs
+   ```
+
+2. **Deploy to GitHub Pages**:
+   ```bash
+   npm run gh-pages
+   ```
+
+3. **Configure GitHub Pages in your repository settings**:
+   - Go to Settings → Pages
+   - Select "Deploy from a branch"
+   - Choose the `gh-pages` branch
+   - Click Save
+
+Your site will be available at `https://<username>.github.io/<repository-name>/`
+
+For detailed instructions, see [GITHUB_PAGES_SETUP.md](GITHUB_PAGES_SETUP.md).
 
 ## Privacy
 
@@ -132,4 +237,4 @@ This application respects your privacy:
 
 ## License
 
-See LICENSE file for details.
+This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). See the [LICENSE](LICENSE) file for details.
