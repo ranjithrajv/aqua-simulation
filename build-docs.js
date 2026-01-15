@@ -33,11 +33,18 @@ async function buildDocs() {
       await fse.copy(sourceDataDir, destDataDir);
     }
 
-    // Copy CSS directory if it exists in app
+    // Copy CSS directory from app root
     const sourceCssDir = path.join(__dirname, 'app', 'css');
     const destCssDir = path.join(destDir, 'css');
     if (await fse.pathExists(sourceCssDir)) {
       await fse.copy(sourceCssDir, destCssDir);
+    }
+
+    // Also copy styles directory if it exists
+    const sourceStylesDir = path.join(__dirname, 'app', 'styles');
+    const destStylesDir = path.join(destDir, 'styles');
+    if (await fse.pathExists(sourceStylesDir)) {
+      await fse.copy(sourceStylesDir, destStylesDir);
     }
 
     // Copy JS directory if it exists in app
@@ -47,7 +54,7 @@ async function buildDocs() {
       await fse.copy(sourceJsDir, destJsDir);
     }
 
-    // Update index.html to work with GitHub Pages subdirectory
+    // Update index.html to work with GitHub Pages subdirectory and fix missing CSS reference
     const indexPath = path.join(destDir, 'index.html');
     if (await fse.pathExists(indexPath)) {
       let indexContent = await fse.readFile(indexPath, 'utf8');
@@ -58,6 +65,33 @@ async function buildDocs() {
           /<head>/i,
           '<head>\n    <base href="./">'
         );
+      }
+
+      // Fix the missing CSS reference - change to reference existing styles.css
+      // If css/tailwind-custom.css doesn't exist, replace with existing CSS file
+      if (indexContent.includes('href="css/tailwind-custom.css"')) {
+        // Check if we have styles.css in the CSS directory
+        const stylesCssPath = path.join(destDir, 'css', 'styles.css');
+        if (await fse.pathExists(stylesCssPath)) {
+          indexContent = indexContent.replace(
+            'href="css/tailwind-custom.css"',
+            'href="css/styles.css"'
+          );
+        } else {
+          // If no specific CSS file found, we'll have to use Tailwind CDN which is already loaded
+          // Or remove the link tag if we have other CSS options
+          const cssDirContents = await fse.readdir(path.join(destDir, 'css')).catch(() => []);
+          if (cssDirContents.length > 0) {
+            // Use the first available CSS file
+            const firstCssFile = cssDirContents.find(file => file.endsWith('.css'));
+            if (firstCssFile) {
+              indexContent = indexContent.replace(
+                'href="css/tailwind-custom.css"',
+                `href="css/${firstCssFile}"`
+              );
+            }
+          }
+        }
       }
 
       await fse.writeFile(indexPath, indexContent);
