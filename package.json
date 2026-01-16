@@ -10,7 +10,8 @@
     "lint:fix": "eslint app/js/**/*.js --fix",
     "format": "prettier --write .",
     "install-deps": "npm install d3 date-fns lodash mathjs",
-    "build-docs": "node build-docs.js"
+    "build-docs": "node build-docs.js",
+    "build-github-pages": "node build-github-pages.js"
   },
   "dependencies": {
     "d3": "^7.8.5",

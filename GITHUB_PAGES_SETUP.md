@@ -12,20 +12,20 @@ This guide explains how to deploy the Aquarium Tank Simulator to GitHub Pages.
 
 ### Method 1: Using the Deployment Script (Recommended)
 
-1. **Build the documentation**:
+1. **Build for GitHub Pages**:
    ```bash
-   npm run build-docs
+   npm run build-github-pages
    ```
 
    This command will:
-   - Build the documentation files to the `/docs` directory
+   - Build the necessary files to the root directory
 
 2. **Configure GitHub Pages**:
    - Go to your repository on GitHub
    - Navigate to **Settings** → **Pages**
    - Under "Source", select "Deploy from a branch"
    - Choose your main branch (e.g., `master`)
-   - Select `/docs` as the folder
+   - Select `/ (root)` as the folder
    - Click **Save**
 
 ### Method 2: Manual Configuration

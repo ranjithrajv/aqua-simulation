@@ -13,7 +13,7 @@ import fse from 'fs-extra';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const sourceDir = path.join(__dirname, 'app', 'public');
-const destDir = path.join(__dirname, 'docs');
+const destDir = __dirname; // Build to root directory instead of docs
 
 async function buildDocs() {
   try {

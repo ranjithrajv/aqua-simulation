@@ -207,20 +207,16 @@ npm test
 
 To deploy this application to GitHub Pages:
 
-1. **Build the documentation**:
+1. **Build for GitHub Pages**:
    ```bash
-   npm run build-docs
+   npm run build-github-pages
    ```
 
-2. **Deploy to GitHub Pages**:
-   ```bash
-   npm run gh-pages
-   ```
-
-3. **Configure GitHub Pages in your repository settings**:
+2. **Configure GitHub Pages in your repository settings**:
    - Go to Settings → Pages
    - Select "Deploy from a branch"
-   - Choose the `gh-pages` branch
+   - Choose your main branch (e.g., `master`)
+   - Select `/ (root)` as the folder
    - Click Save
 
 Your site will be available at `https://<username>.github.io/<repository-name>/`
