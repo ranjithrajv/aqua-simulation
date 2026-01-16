@@ -1,5 +1,6 @@
 // Ultra-simple test bundle for debugging
 console.log('=== START DEBUGGING ===');
+document.title = 'JAVASCRIPT TEST PAGE - If you see this, JS is working!';
 
 // Test 1: Simple DOM manipulation
 try {
