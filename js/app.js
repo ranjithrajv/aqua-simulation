@@ -1,12 +1,12 @@
 // Main application entry point
-import { TankCalculator } from '../src/domain/calculations/TankCalculator.js';
-import { GlassRecommender } from '../src/domain/recommendations/GlassRecommender.js';
-import { EquipmentRecommender } from '../src/domain/recommendations/EquipmentRecommender.js';
+import { TankCalculator } from './src/domain/calculations/TankCalculator.js';
+import { GlassRecommender } from './src/domain/recommendations/GlassRecommender.js';
+import { EquipmentRecommender } from './src/domain/recommendations/EquipmentRecommender.js';
 import {
   GlassPanelCalculator,
   WeightDistributionCalculator,
-} from '../src/domain/calculations/GlassPanelCalculator.js';
-import { DOMHelper } from '../src/ui/utils/DOMHelper.js';
+} from './src/domain/calculations/GlassPanelCalculator.js';
+import { DOMHelper } from './src/ui/utils/DOMHelper.js';
 import {
   CONVERSIONS,
   UNIT_SYSTEMS,
@@ -14,7 +14,7 @@ import {
   DIMENSIONS,
   DEFAULT_VALUES,
   loadConstantsFromJSON,
-} from '../src/config/constants.js';
+} from './src/config/constants.js';
 import {
   escapeHtml,
   clamp,
@@ -25,14 +25,14 @@ import {
   showWarning,
   createButton,
   createSelect,
-} from '../src/utils/formatters.js';
-import { PlacementGuide } from '../src/domain/recommendations/PlacementGuide.js';
-import { DimensionFinder } from '../src/domain/calculations/DimensionFinder.js';
+} from './src/utils/formatters.js';
+import { PlacementGuide } from './src/domain/recommendations/PlacementGuide.js';
+import { DimensionFinder } from './src/domain/calculations/DimensionFinder.js';
 import {
   createVolumeChart,
   createWeightChart,
   createGlassThicknessChart,
-} from '../src/ui/visualizations/charts/charts.js';
+} from './src/ui/visualizations/charts/charts.js';
 import {
   debounceFunction,
   deepClone,
@@ -42,10 +42,10 @@ import {
   filterArray,
   mapArray,
   max,
-} from '../src/utils/lodash-utils.js';
-import { saveJSON, saveCanvas, generateTimestampedFilename } from '../src/utils/file-saver.js';
-import { showFormModal, openCustomModal } from '../src/utils/modal.js';
-import { logger } from '../src/utils/logger.js';
+} from './src/utils/lodash-utils.js';
+import { saveJSON, saveCanvas, generateTimestampedFilename } from './src/utils/file-saver.js';
+import { showFormModal, openCustomModal } from './src/utils/modal.js';
+import { logger } from './src/utils/logger.js';
 
 class AquariumApp {
   constructor() {
