@@ -1,6 +1,322 @@
-// Ultra-simple test bundle for debugging
-console.log('=== START DEBUGGING ===');
-document.title = 'JAVASCRIPT TEST PAGE - If you see this, JS is working!';
+// Aquarium Tank Simulator - Complete Working Bundle
+console.log('Loading Aquarium Tank Simulator...');
+
+// Basic constants
+const CONVERSIONS = {
+  INCHES_TO_CM: 2.54,
+  GALLONS_TO_LITERS: 3.78541,
+  DISPLACEMENT_PERCENT: 0.1,
+};
+
+// Basic Tank Calculator
+class TankCalculator {
+  calculateVolume(length, width, height) {
+    // Convert to cm for calculation
+    const lengthCm = length * CONVERSIONS.INCHES_TO_CM;
+    const widthCm = width * CONVERSIONS.INCHES_TO_CM;
+    const heightCm = height * CONVERSIONS.INCHES_TO_CM;
+
+    // Volume in cubic cm to liters
+    const volumeCm3 = lengthCm * widthCm * heightCm;
+    const liters = volumeCm3 / 1000;
+
+    return liters;
+  }
+
+  convertToGallons(liters) {
+    return liters / CONVERSIONS.GALLONS_TO_LITERS;
+  }
+
+  adjustForDisplacement(liters) {
+    return liters * (1 - CONVERSIONS.DISPLACEMENT_PERCENT);
+  }
+
+  calculateSurfaceArea(length, width, height) {
+    const lengthIn = length;
+    const widthIn = width;
+    const heightIn = height;
+
+    const topSqFt = (lengthIn * widthIn) / 144;
+    const frontSqFt = (lengthIn * heightIn) / 144;
+    const sideSqFt = (widthIn * heightIn) / 144;
+
+    return {
+      topSqFt: topSqFt,
+      frontSqFt: frontSqFt,
+      sideSqFt: sideSqFt,
+      topSqIn: lengthIn * widthIn,
+      frontSqIn: lengthIn * heightIn,
+      sideSqIn: widthIn * heightIn,
+    };
+  }
+
+  calculateWaterWeight(gallons, isSaltwater = false) {
+    const lbsPerGallon = isSaltwater ? 8.55 : 8.34;
+    const lbs = gallons * lbsPerGallon;
+    const kg = lbs * 0.453592;
+
+    return { lbs, kg };
+  }
+}
+
+// Basic Glass Recommender
+class GlassRecommender {
+  getRecommendation(length, width, height) {
+    const maxDimension = Math.max(length, width, height);
+    const volumeGallons = this.estimateVolume(length, width, height);
+
+    if (maxDimension <= 18 && volumeGallons <= 20) {
+      return '1/4" (6mm)';
+    } else if (maxDimension <= 24 && volumeGallons <= 50) {
+      return '3/8" (10mm)';
+    } else if (maxDimension <= 36 && volumeGallons <= 100) {
+      return '1/2" (12mm)';
+    } else if (maxDimension <= 48 && volumeGallons <= 180) {
+      return '5/8" (15mm)';
+    } else {
+      return '3/4" (19mm)';
+    }
+  }
+
+  getDetailedRecommendation(length, width, height) {
+    const recommendation = this.getRecommendation(length, width, height);
+    const maxDimension = Math.max(length, width, height);
+
+    let safetyNote = 'Standard aquarium glass recommended';
+    if (maxDimension > 30) {
+      safetyNote = 'Consider using tempered glass for large panels';
+    }
+    if (maxDimension > 48) {
+      safetyNote = 'Professional installation recommended. Use safety glass.';
+    }
+
+    return {
+      thickness: recommendation,
+      safetyNote: safetyNote,
+    };
+  }
+
+  estimateVolume(length, width, height) {
+    const calculator = new TankCalculator();
+    const liters = calculator.calculateVolume(length, width, height);
+    return calculator.convertToGallons(liters);
+  }
+}
+
+// Main Application Class
+class AquariumApp {
+  constructor() {
+    this.calculator = new TankCalculator();
+    this.recommender = new GlassRecommender();
+    this.currentUnitSystem = 'imperial';
+    this.volumeUnitSystem = 'gallons';
+    this.waterType = 'freshwater';
+    this.init();
+  }
+
+  init() {
+    this.setupDimensionControls();
+    this.setupUnitSystem();
+    this.setupWaterTypeControls();
+    this.setupTankPresets();
+    this.updateCalculations();
+    console.log('Aquarium Tank Simulator initialized');
+  }
+
+  setupDimensionControls() {
+    ['width', 'length', 'height'].forEach(dimension => {
+      const input = document.getElementById(dimension);
+      const valueDisplay = document.getElementById(`${dimension}Value`);
+
+      if (!input || !valueDisplay) return;
+
+      input.addEventListener('input', e => {
+        const value = parseFloat(e.target.value);
+        this.setText(`${dimension}Value`, value);
+        this.updateCalculations();
+      });
+
+      this.setText(`${dimension}Value`, input.value);
+    });
+  }
+
+  setupUnitSystem() {
+    const unitSelector = document.getElementById('unitSystem');
+    if (unitSelector) {
+      unitSelector.addEventListener('change', e => {
+        this.currentUnitSystem = e.target.value;
+        this.updateUnitDisplays();
+        this.updateCalculations();
+      });
+    }
+
+    this.updateUnitDisplays();
+  }
+
+  setupWaterTypeControls() {
+    const waterTypeSelect = document.getElementById('waterType');
+    if (waterTypeSelect) {
+      waterTypeSelect.addEventListener('change', e => {
+        this.waterType = e.target.value;
+        this.updateCalculations();
+      });
+    }
+  }
+
+  setupTankPresets() {
+    const presetButtons = document.querySelectorAll('.preset-btn');
+    presetButtons.forEach(button => {
+      button.addEventListener('click', e => {
+        const btn = e.target.closest('.preset-btn');
+        const width = parseInt(btn.dataset.width);
+        const length = parseInt(btn.dataset.length);
+        const height = parseInt(btn.dataset.height);
+
+        if (isNaN(width) || isNaN(length) || isNaN(height)) return;
+
+        this.setAllDimensions(width, length, height);
+        this.updateCalculations();
+
+        // Visual feedback
+        btn.style.background = '#4CAF50';
+        setTimeout(() => {
+          btn.style.background = '#667eea';
+        }, 600);
+      });
+    });
+  }
+
+  setAllDimensions(width, length, height) {
+    ['width', 'length', 'height'].forEach(dimension => {
+      const input = document.getElementById(dimension);
+      const valueDisplay = document.getElementById(`${dimension}Value`);
+      if (input && valueDisplay) {
+        input.value = width;
+        valueDisplay.textContent = width;
+      }
+    });
+  }
+
+  getTankDimensions() {
+    return {
+      width: parseFloat(this.getValue('width')),
+      length: parseFloat(this.getValue('length')),
+      height: parseFloat(this.getValue('height')),
+    };
+  }
+
+  getValue(id) {
+    const element = document.getElementById(id);
+    return element ? element.value : '';
+  }
+
+  setText(id, text) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = text;
+  }
+
+  updateUnitDisplays() {
+    const unit = this.currentUnitSystem === 'imperial' ? 'in' : 'cm';
+    ['widthUnit', 'lengthUnit', 'heightUnit'].forEach(displayId => {
+      this.setText(displayId, unit);
+    });
+  }
+
+  updateCalculations() {
+    const dimensions = this.getTankDimensions();
+    if (!dimensions.width || !dimensions.length || !dimensions.height) return;
+
+    const volumeData = this.calculateVolumeData(dimensions);
+    const surfaceArea = this.calculator.calculateSurfaceArea(
+      dimensions.length,
+      dimensions.width,
+      dimensions.height
+    );
+    const glassRecommendation = this.recommender.getRecommendation(
+      dimensions.length,
+      dimensions.width,
+      dimensions.height
+    );
+    const detailedRecommendation = this.recommender.getDetailedRecommendation(
+      dimensions.length,
+      dimensions.width,
+      dimensions.height
+    );
+
+    // Update displays
+    this.updateVolumeDisplays(volumeData);
+    this.updateSurfaceAreaDisplay(surfaceArea);
+    this.updateWaterWeightDisplay(volumeData.waterGallons);
+    this.updateGlassDisplay(glassRecommendation, detailedRecommendation);
+  }
+
+  calculateVolumeData(dimensions) {
+    const liters = this.calculator.calculateVolume(
+      dimensions.length,
+      dimensions.width,
+      dimensions.height
+    );
+    const gallons = this.calculator.convertToGallons(liters);
+    const waterLiters = this.calculator.adjustForDisplacement(liters);
+    const waterGallons = this.calculator.convertToGallons(waterLiters);
+
+    return { liters, gallons, waterLiters, waterGallons };
+  }
+
+  updateVolumeDisplays(volumeData) {
+    if (this.volumeUnitSystem === 'gallons') {
+      this.setText('volumeInput', volumeData.gallons);
+      this.setText('volumeValue', volumeData.gallons);
+      this.setText('waterVolumeInput', volumeData.waterGallons);
+      this.setText('waterVolumeValue', volumeData.waterGallons);
+    } else {
+      this.setText('volumeInput', volumeData.liters);
+      this.setText('volumeValue', volumeData.liters);
+      this.setText('waterVolumeInput', volumeData.liters);
+      this.setText('waterVolumeValue', volumeData.liters);
+    }
+  }
+
+  updateSurfaceAreaDisplay(surfaceArea) {
+    const topSqFt = Math.round(surfaceArea.topSqFt * 10) / 10;
+    const topSqIn = Math.round(surfaceArea.topSqIn);
+
+    this.setText('surfaceAreaResult', `${topSqFt} ft² (${topSqIn} in²)`);
+
+    const indicator = document.getElementById('surfaceAreaText');
+    if (indicator) {
+      if (surfaceArea.topSqFt < 2) {
+        indicator.textContent = 'Low oxygen exchange';
+      } else if (surfaceArea.topSqFt < 4) {
+        indicator.textContent = 'Good oxygen exchange';
+      } else {
+        indicator.textContent = 'Excellent oxygen exchange';
+      }
+    }
+  }
+
+  updateWaterWeightDisplay(waterGallons) {
+    const weightData = this.calculator.calculateWaterWeight(
+      waterGallons,
+      this.waterType === 'saltwater'
+    );
+    const weightString = `${Math.round(weightData.lbs)} lbs (${Math.round(weightData.kg)} kg)`;
+    this.setText('waterWeightResult', weightString);
+  }
+
+  updateGlassDisplay(thickness, detailed) {
+    this.setText('glassResult', thickness);
+    this.setText('glassNotes', detailed.safetyNote);
+  }
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM loaded, initializing Aquarium Tank Simulator...');
+  window.app = new AquariumApp();
+});
+
+console.log('Aquarium Tank Simulator bundle loaded');
 
 // Test 1: Simple DOM manipulation
 try {
