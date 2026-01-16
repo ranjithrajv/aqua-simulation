@@ -1,5 +1,5 @@
 // Tank volume and calculation utilities
-import { CONVERSIONS } from '../../config/constants.js';
+import { CONVERSIONS } from '../../../config/constants.js';
 // Use global math object provided by Math.js library loaded via CDN in index.html
 const math = typeof window !== 'undefined' && window.math ? window.math : globalThis.math;
 

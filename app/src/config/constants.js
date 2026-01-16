@@ -1,5 +1,5 @@
-import { loadJSONDataSync } from '../utils/json-loader.js';
-import { logger } from '../utils/logger.js';
+import { loadJSONDataSync } from '../../../utils/json-loader.js';
+import { logger } from '../../../utils/logger.js';
 
 const defaultConstantsData = {
   conversions: {

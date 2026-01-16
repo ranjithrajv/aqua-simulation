@@ -1,4 +1,4 @@
-import { DOMHelper } from '../utils/DOMHelper.js';
+import { DOMHelper } from '../../../utils/DOMHelper.js';
 import { DIMENSIONS } from '../../config/constants.js';
 
 export class DimensionControls {
