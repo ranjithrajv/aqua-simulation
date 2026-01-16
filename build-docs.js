@@ -54,6 +54,13 @@ async function buildDocs() {
       await fse.copy(sourceJsDir, destJsDir);
     }
 
+    // Copy src directory for module imports
+    const sourceSrcDir = path.join(__dirname, 'app', 'src');
+    const destSrcDir = path.join(destDir, 'src');
+    if (await fse.pathExists(sourceSrcDir)) {
+      await fse.copy(sourceSrcDir, destSrcDir);
+    }
+
     // Update index.html to work with GitHub Pages subdirectory and fix missing CSS reference
     const indexPath = path.join(destDir, 'index.html');
     if (await fse.pathExists(indexPath)) {
