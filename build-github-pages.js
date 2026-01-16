@@ -85,11 +85,32 @@ async function buildForGithubPages() {
       }
     }
 
-    // Copy the src directory for module imports
+    // Copy the src directory for module imports and fix import paths
     const sourceSrcDir = path.join(__dirname, 'app', 'src');
     const destSrcDir = path.join(tempDestDir, 'src');
     if (await fse.pathExists(sourceSrcDir)) {
       await fse.copy(sourceSrcDir, destSrcDir);
+
+      // Fix all import paths in src files for GitHub Pages deployment
+      // When src files are served from root, their relative imports need to be updated
+      const srcFiles = await fse.glob('**/*.js', { cwd: destSrcDir });
+      for (const file of srcFiles) {
+        const filePath = path.join(destSrcDir, file);
+        let content = await fse.readFile(filePath, 'utf8');
+
+        // Fix relative imports to work when src is at root level
+        // '../utils/' -> '../../../utils/' (going up from src/domain/calculations/ to root utils/)
+        // '../../utils/' -> '../../../../utils/' etc.
+
+        // Replace three levels up
+        content = content.replace(/from\s+['"]\.\.\/\.\.\/\.\.\//g, "from '../../../");
+        // Replace two levels up
+        content = content.replace(/from\s+['"]\.\.\/\.\.\//g, "from '../../");
+        // Replace one level up
+        content = content.replace(/from\s+['"]\.\.\//g, "from '../");
+
+        await fse.writeFile(filePath, content);
+      }
     }
 
     // Update index.html to remove base tag since we're serving from root
