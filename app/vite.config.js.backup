@@ -3,14 +3,14 @@ import basicSsl from '@vitejs/plugin-basic-ssl';
 
 export default defineConfig({
   plugins: [basicSsl()],
-  root: '.',
-  publicDir: 'public',
+  root: 'src',
+  publicDir: '../public',
   build: {
-    outDir: 'dist',
+    outDir: '../dist',
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: './src/main.js',
+        main: '../public/index.html',
       },
     },
     sourcemap: true,
@@ -33,13 +33,13 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': './src',
-      '@core': './src/core',
-      '@domain': './src/domain',
-      '@ui': './src/ui',
-      '@services': './src/services',
-      '@config': './src/config',
-      '@utils': './src/utils',
+      '@': '/src',
+      '@core': '/src/core',
+      '@domain': '/src/domain',
+      '@ui': '/src/ui',
+      '@services': '/src/services',
+      '@config': '/src/config',
+      '@utils': '/src/utils',
     },
   },
 });

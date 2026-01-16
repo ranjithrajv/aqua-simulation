@@ -10,7 +10,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: './src/main.js',
+        main: './public/index.html',
       },
     },
     sourcemap: true,

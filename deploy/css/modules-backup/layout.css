@@ -1,0 +1,24 @@
+/* Main content layout */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px;
+}
+
+.top-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 20px;
+    }
+
+    .top-section {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}

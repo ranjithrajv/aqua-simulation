@@ -1,0 +1,22 @@
+{
+  "thickness_ranges": [
+    { "maxDepth": 12, "maxVolume": 20, "thickness": 3, "description": "3mm (for nano tanks only)" },
+    { "maxDepth": 15, "maxVolume": 40, "thickness": 5, "description": "5mm (small tanks)" },
+    { "maxDepth": 24, "maxVolume": 100, "thickness": 6, "description": "6mm (small-medium tanks)" },
+    { "maxDepth": 30, "maxVolume": 200, "thickness": 8, "description": "8mm (medium tanks)" },
+    { "maxDepth": 36, "maxVolume": 400, "thickness": 10, "description": "10mm (large tanks)" },
+    { "maxDepth": 48, "maxVolume": null, "thickness": 12, "description": "12mm+ (extra large tanks)" }
+  ],
+  "depth_base_thickness": [
+    { "maxDepth": 12, "thickness": 3 },
+    { "maxDepth": 15, "thickness": 5 },
+    { "maxDepth": 24, "thickness": 6 },
+    { "maxDepth": 30, "thickness": 8 },
+    { "maxDepth": 36, "thickness": 10 },
+    { "maxDepth": null, "thickness": 12 }
+  ],
+  "panel_size_increments": [
+    { "size": 48, "increment": 2 },
+    { "size": 60, "increment": 2 }
+  ]
+}

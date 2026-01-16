@@ -1,6 +1,2 @@
-import './styles/main.css';
-import { AquariumApp } from './core/AquariumApp.js';
-
-document.addEventListener('DOMContentLoaded', () => {
-  window.app = new AquariumApp();
-});
+// Simple entry point for static deployment
+console.log('Aquarium Tank Simulator loading...');
