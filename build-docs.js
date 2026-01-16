@@ -97,7 +97,7 @@ async function buildDocs() {
       await fse.writeFile(indexPath, indexContent);
     }
 
-    // Fix the styles.css file to remove invalid imports
+    // Fix the styles.css file to remove invalid imports and consolidate CSS
     const stylesCssPath = path.join(destDir, 'css', 'styles.css');
     if (await fse.pathExists(stylesCssPath)) {
       let cssContent = await fse.readFile(stylesCssPath, 'utf8');
@@ -105,6 +105,19 @@ async function buildDocs() {
       // Remove any import statements that reference non-existent CSS files
       cssContent = cssContent.replace(/@import\s+url\(['"]\.\/tailwind-custom\.css['"]\);?\s*\n?/g, '');
       cssContent = cssContent.replace(/@import\s+url\(['"]\.\/[^'"]*tailwind[^'"]*\.css['"]\);?\s*\n?/g, '');
+
+      // Read and append all CSS files from modules-backup to ensure styles are included
+      const modulesBackupDir = path.join(destDir, 'css', 'modules-backup');
+      if (await fse.pathExists(modulesBackupDir)) {
+        const cssFiles = await fse.readdir(modulesBackupDir);
+        for (const file of cssFiles) {
+          if (file.endsWith('.css')) {
+            const filePath = path.join(modulesBackupDir, file);
+            const fileContent = await fse.readFile(filePath, 'utf8');
+            cssContent += '\n' + fileContent;
+          }
+        }
+      }
 
       await fse.writeFile(stylesCssPath, cssContent);
     }
