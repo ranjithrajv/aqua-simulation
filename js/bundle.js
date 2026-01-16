@@ -481,7 +481,10 @@ class AquariumApp {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, initializing Aquarium Tank Simulator...');
+    // Add visible test
+const testElement = document.querySelector("h1");
+if (testElement) testElement.style.color = "red";
+console.log("DOM loaded, initializing Aquarium Tank Simulator...");
     window.app = new AquariumApp();
 });
 
